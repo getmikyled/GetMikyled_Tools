@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:Foldout text="Foldout">
+            <ui:Button text="Walls" display-tooltip-when-elided="true" name="CreateWallsButton" style="height: 49px; width: 56px;" />
+        </ui:Foldout>
+    </ui:VisualElement>
+</ui:UXML>
