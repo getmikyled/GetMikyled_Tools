@@ -44,6 +44,11 @@ namespace GetMikyled.RoomConstructor
 
             Button createWallsButton = root.Q<Button>(name: "CreateWallsButton");
             createWallsButton.clicked += () => EnableCreatingWalls();
+            wallThickness = root.Q<FloatField>("WallThickness");
+            wallHeight = root.Q<FloatField>("WallHeight");
+            wallThickness.RegisterValueChangedCallback(ChangeWallProperties);
+            wallHeight.RegisterValueChangedCallback(ChangeWallProperties);
+            CreateWallObjectPool();
         }
         #endregion
 

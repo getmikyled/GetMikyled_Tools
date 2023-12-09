@@ -23,7 +23,6 @@ namespace GetMikyled.RoomConstructor
         private void OnEnable()
         {
             SceneView.duringSceneGui += OnSceneGUI;
-            CreateWallObjectPool();
         }
 
         private void OnDisable()
@@ -87,8 +86,8 @@ namespace GetMikyled.RoomConstructor
             wallEnd = new GameObject().transform;
             wallEnd.name = "EndPoint";
             wall = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
-            wall.localScale = new Vector3(wall.localScale.x, float.Parse(wallHeight.text), float.Parse(wallThickness.text));
-            wall.name = "Wall";
+            wall.localScale = new Vector3(wall.localScale.x, wallHeight.value, wallThickness.value);  
+            wall.name = "Wall"; 
 
             wallStart.transform.parent = wallObjectPool;
             wallEnd.transform.parent = wallObjectPool;
@@ -97,12 +96,16 @@ namespace GetMikyled.RoomConstructor
 
         private void DestroyWallObjectPool()
         {
-            DestroyImmediate(wallObjectPool);
+            DestroyImmediate(wallObjectPool.gameObject);
             wallObjectPool = null;
             wallStart = null;
             wallEnd = null;
             wall = null;
         }
 
+        private void ChangeWallProperties(ChangeEvent<float> evt)
+        {
+            wall.localScale = new Vector3(wall.localScale.x, wallHeight.value, wallThickness.value);
+        }
     }
 }
