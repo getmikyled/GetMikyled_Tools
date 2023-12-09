@@ -1,7 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
-        <ui:Foldout text="Foldout">
-            <ui:Button text="Walls" display-tooltip-when-elided="true" name="CreateWallsButton" style="height: 49px; width: 56px;" />
+        <ui:Label tabindex="-1" text="CurrentState: " display-tooltip-when-elided="true" />
+        <ui:Button text="Walls" display-tooltip-when-elided="true" name="CreateWallsButton" style="height: 49px; width: 56px;" />
+        <ui:Foldout text="Create Walls Settings" name="CreateWalls">
+            <ui:FloatField label="Wall Thickness" value="2" name="WallThickness" />
+            <ui:FloatField label="Wall Height" value="5" name="WallHeight" />
         </ui:Foldout>
     </ui:VisualElement>
 </ui:UXML>
