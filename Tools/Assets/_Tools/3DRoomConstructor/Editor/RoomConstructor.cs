@@ -16,7 +16,9 @@ namespace GetMikyled.RoomConstructor
 
     public partial class RoomConstructor : EditorWindow
     {
-        BuildMode currentState = BuildMode.None;
+        BuildMode currentMode = BuildMode.None;
+
+        Transform mainToolObject = null;
 
         #region CreateGUI
         /// <summary>
@@ -25,12 +27,28 @@ namespace GetMikyled.RoomConstructor
         /// </summary>
         [SerializeField] private VisualTreeAsset _tree;
 
-        Label currentStateText;
+        Label currentModeText;
 
         [MenuItem("Tools/RoomConstructor")]
         public static void ShowWindow()
         {
             var window = GetWindow<RoomConstructor>();
+        }
+
+        private void OnEnable()
+        {
+            SceneView.duringSceneGui += OnSceneGUI;
+
+            mainToolObject = new GameObject().transform;
+            mainToolObject.name = "------- RoomConstructor -------";
+        }
+
+        private void OnDisable()
+        {
+            SceneView.duringSceneGui -= OnSceneGUI;
+
+            DestroyImmediate(mainToolObject.gameObject);
+            DestroyWallObjectPool();
         }
 
         private void CreateGUI()
@@ -39,8 +57,8 @@ namespace GetMikyled.RoomConstructor
 
             _tree.CloneTree(rootVisualElement);
 
-            currentStateText = root.Q<Label>("CurrentMode");
-            UpdateMode(BuildMode.None, BuildMode.None);
+            currentModeText = root.Q<Label>("CurrentMode");
+            UpdateMode(BuildMode.None);
 
             Button createWallsButton = root.Q<Button>(name: "CreateWallsButton");
             createWallsButton.clicked += () => EnableCreatingWalls();
@@ -48,16 +66,17 @@ namespace GetMikyled.RoomConstructor
             wallHeight = root.Q<FloatField>("WallHeight");
             wallThickness.RegisterValueChangedCallback(ChangeWallProperties);
             wallHeight.RegisterValueChangedCallback(ChangeWallProperties);
+
             CreateWallObjectPool();
         }
         #endregion
 
         #region CurrentStateLabel
-        private void UpdateMode(BuildMode newMode, BuildMode oldMode)
-        { 
-            currentState = newMode;
+        private void UpdateMode(BuildMode newMode)
+        {
+            currentMode = newMode;
             // MAKE IT UPDATE TO NAME OF ENUM
-            //currentStateText.text = "Current Mode: " + System.Enum.GetName((typeof(BuildModeState), currentState));
+            currentModeText.text = "Current Mode: " + System.Enum.GetName(typeof(BuildMode), currentMode);
         }
         #endregion
     }
