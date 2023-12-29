@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="ButtonToolbelt" style="flex-direction: row; flex-wrap: wrap;">
+        <ui:Button text="Walls" display-tooltip-when-elided="true" name="CreateWallsButton" style="height: 49px; width: 56px;" />
+        <ui:Button text="Eraser" display-tooltip-when-elided="true" name="EraserButton" style="height: 49px; width: 56px;" />
+    </ui:VisualElement>
+    <ui:Label tabindex="-1" text="Current Mode:" display-tooltip-when-elided="true" name="CurrentMode" />
+    <ui:Foldout text="Create Walls Settings" name="CreateWalls">
+        <ui:FloatField label="Wall Thickness" value="0.5" name="WallThickness" />
+        <ui:FloatField label="Wall Height" value="5" name="WallHeight" />
+    </ui:Foldout>
+    <ui:Foldout text="Place Prefab" name="PrefabView" style="flex-direction: column;" />
+</ui:UXML>

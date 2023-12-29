@@ -1,5 +1,3 @@
-using Codice.Client.Commands;
-using Codice.Client.Common.GameUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +5,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GetMikyled.RoomConstructor
+namespace GetMikyled.LevelEditor
 {
-    public partial class RoomConstructor
+    public partial class LevelEditor
     {
         public bool isCreatingWall = false;
 
@@ -23,9 +21,13 @@ namespace GetMikyled.RoomConstructor
 
         Transform newWall;
 
-        private void OnSceneGUI(SceneView sceneView)
+        ///-//////////////////////////////////////////////////////////////////
+        ///.
+        /// Is added to the Scene View for creating walls
+        ///
+        private void OnSceneCreateWalls(SceneView sceneView)
         {
-            if (currentMode == BuildMode.CreateWalls )
+            if (buildMode == BuildMode.CreateWalls )
             {
                 #region Read Mouse Input
 
@@ -49,6 +51,7 @@ namespace GetMikyled.RoomConstructor
                             // Tells the scene view that the placing wall event is taking place and to ignore other related events 
                             GUIUtility.hotControl = id;
 
+                            Debug.Log("Wall Started");
 
                             SetWallStart();
                             evt.Use();
@@ -84,11 +87,15 @@ namespace GetMikyled.RoomConstructor
             }
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         private void EnableCreatingWalls()
         {
-            UpdateMode(BuildMode.CreateWalls);
+            SetBuildMode(BuildMode.CreateWalls);
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         private void SetWallStart()
         {
             isCreatingWall = true;
@@ -107,17 +114,21 @@ namespace GetMikyled.RoomConstructor
                 float dist = - ray.origin.y / ray.direction.y; // to calculate the distance along the ray where it intersects the 0 plane
                 wallStart.position = ray.origin + dist * ray.direction; // this represents the intersection point of the ray and the y plane
             }
-            wallStart.position = new Vector3(Mathf.Round(wallStart.position.x), wallStart.position.y + (wallHeight.value / 2), Mathf.Round(wallStart.position.z));
 
+            wallStart.position = new Vector3(Mathf.Round(wallStart.position.x), wallStart.position.y + (wallHeight.value / 2), Mathf.Round(wallStart.position.z));
 
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         private void SetWallEnd()
         {
             isCreatingWall = false;
             SetWallsActive(false);
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         private void AdjustWall()
         {
 
@@ -146,11 +157,12 @@ namespace GetMikyled.RoomConstructor
             wall.localScale = new Vector3(wall.localScale.x, wall.localScale.y, distance);
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         private void CreateWall()
         {
             newWall = Instantiate(wallObjectPool);
             newWall.name = "Wall";
-            
         }
 
         #region Creating Necessary Components for Wall Building
@@ -170,7 +182,7 @@ namespace GetMikyled.RoomConstructor
             wallEnd.localScale = new Vector3(wallThickness.value, wallHeight.value, wallThickness.value);
             wall.localScale = new Vector3(wallThickness.value, wallHeight.value, wall.localScale.z);  
 
-            wallObjectPool.parent = mainToolObject;
+            wallObjectPool.SetParent(mainToolObject);
             wallStart.transform.parent = wallObjectPool;
             wallEnd.transform.parent = wallObjectPool;
             wall.parent = wallObjectPool;
