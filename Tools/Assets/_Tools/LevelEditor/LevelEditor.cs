@@ -16,9 +16,15 @@ namespace GetMikyled.LevelEditor
 
     public partial class LevelEditor : EditorWindow
     {
-        BuildMode buildMode = BuildMode.None;
+        [SerializeField] private VisualTreeAsset _tree;
 
-        Transform mainToolObject = null;
+        private BuildMode buildMode = BuildMode.None;
+        protected Label currentModeText;
+
+        private Transform mainToolObject = null;
+
+        protected float gridSize = 1f;
+        protected bool doGridSnapping = true;
 
         #region CreateGUI
         ///-////////////////////////////////////////////////
@@ -26,10 +32,6 @@ namespace GetMikyled.LevelEditor
         /// CREATE THE WINDOW
         /// CLONE ELEMENTS
         /// 
-
-        [SerializeField] private VisualTreeAsset _tree;
-
-        Label currentModeText;
 
         ///-////////////////////////////////////////////////
         ///
@@ -80,14 +82,10 @@ namespace GetMikyled.LevelEditor
             currentModeText = root.Q<Label>("CurrentMode");
             SetBuildMode(BuildMode.None);
 
-            Button createWallsButton = root.Q<Button>(name: "CreateWallsButton");
-            createWallsButton.clicked += () => EnableCreatingWalls();
-            wallThickness = root.Q<FloatField>("WallThickness");
-            wallHeight = root.Q<FloatField>("WallHeight");
-            wallThickness.RegisterValueChangedCallback(ChangeWallProperties);
-            wallHeight.RegisterValueChangedCallback(ChangeWallProperties);
 
-            ConstructPrefabPlacerUI();
+            ConstructGridUI(root);
+            ConstructCreateWallsUI(root);
+            ConstructPrefabPlacerUI(root);
             ConstructEraserUI();
 
             CreateWallObjectPool();
@@ -105,6 +103,32 @@ namespace GetMikyled.LevelEditor
             currentModeText.text = "Current Mode: " + System.Enum.GetName(typeof(BuildMode), buildMode);
         }
         #endregion
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        private void ConstructGridUI(VisualElement root)
+        {
+            Toggle gridSnappingToggle = root.Q<Toggle>(name: "GridSnapToggle");
+            gridSnappingToggle.RegisterValueChangedCallback(ChangeGridProperties);
+            FloatField gridSizeField = root.Q<FloatField>(name: "GridSizeField");
+            gridSizeField.RegisterValueChangedCallback(ChangeGridProperties);
+        }
+
+        #region Change Properties
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        private void ChangeGridProperties(ChangeEvent<float> evt)
+        {
+            gridSize = evt.newValue;
+        }
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        private void ChangeGridProperties(ChangeEvent<bool> evt)
+        {
+            doGridSnapping = evt.newValue;
+        }
+        #endregion #region Change Properties
 
         ///-//////////////////////////////////////////////////////////////////
         ///

@@ -41,9 +41,9 @@ namespace GetMikyled.LevelEditor
         #region Construct UI
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private void ConstructPrefabPlacerUI()
+        private void ConstructPrefabPlacerUI(VisualElement root)
         {
-            prefabView = rootVisualElement.Q<Foldout>(name: "PrefabView");
+            prefabView = root.Q<Foldout>(name: "PrefabView");
 
             buttonView = new VisualElement();
             buttonView.style.flexDirection = FlexDirection.Row;
@@ -223,7 +223,15 @@ namespace GetMikyled.LevelEditor
                     float t = -ray.origin.y / ray.direction.y; // to calculate the distance along the ray where it intersects the 0 plane
                     previewPrefab.transform.position = ray.origin + t * ray.direction; // this represents the intersection point of the ray and the y plane
                 }
-                previewPrefab.transform.position = new Vector3(Mathf.Round(previewPrefab.transform.position.x), previewPrefab.transform.position.y + meshHeight / 2, Mathf.Round(previewPrefab.transform.position.z));
+
+                if (doGridSnapping)
+                {
+                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x.Round(gridSize), previewPrefab.transform.position.y + meshHeight / 2, previewPrefab.transform.position.z.Round(gridSize));
+                }
+                else
+                {
+                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x, previewPrefab.transform.position.y + meshHeight / 2, previewPrefab.transform.position.z);
+                }
             }
         }
 

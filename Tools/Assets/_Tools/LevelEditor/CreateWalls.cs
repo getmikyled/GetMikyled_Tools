@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Recorder.OutputPath;
 
 namespace GetMikyled.LevelEditor
 {
@@ -11,13 +12,13 @@ namespace GetMikyled.LevelEditor
     {
         public bool isCreatingWall = false;
 
-        Transform wallObjectPool;
-        Transform wallStart;
-        Transform wallEnd;
-        Transform wall;
+        private Transform wallObjectPool;
+        private Transform wallStart;
+        private Transform wallEnd;
+        private Transform wall;
 
-        FloatField wallThickness;
-        FloatField wallHeight;
+        private FloatField wallThickness;
+        private FloatField wallHeight;
 
         Transform newWall;
 
@@ -115,7 +116,14 @@ namespace GetMikyled.LevelEditor
                 wallStart.position = ray.origin + dist * ray.direction; // this represents the intersection point of the ray and the y plane
             }
 
-            wallStart.position = new Vector3(Mathf.Round(wallStart.position.x), wallStart.position.y + (wallHeight.value / 2), Mathf.Round(wallStart.position.z));
+            if (doGridSnapping)
+            {
+                wallStart.position = new Vector3(wallStart.position.x.Round(gridSize), wallStart.position.y + (wallHeight.value / 2), wallStart.position.z.Round(gridSize));
+            } 
+            else
+            {
+                wallStart.position = new Vector3(wallStart.position.x, wallStart.position.y + (wallHeight.value / 2), wallStart.position.z);
+            }
 
         }
 
@@ -149,12 +157,29 @@ namespace GetMikyled.LevelEditor
                 float dist = -ray.origin.y / ray.direction.y; // to calculate the distance along the ray where it intersects the 0 plane
                 wallEnd.position = ray.origin + dist * ray.direction; // this represents the intersection point of the ray and the y plane
             }
-            wallEnd.position = new Vector3(Mathf.Round(wallEnd.position.x), wallEnd.position.y + (wallHeight.value / 2), Mathf.Round(wallEnd.position.z));
+            if (doGridSnapping)
+            {
+                wallEnd.position = new Vector3(wallEnd.position.x.Round(gridSize), wallEnd.position.y + (wallHeight.value / 2), wallEnd.position.z.Round(gridSize));
+            }
+            else
+            {
+                wallEnd.position = new Vector3(wallEnd.position.x, wallEnd.position.y + (wallHeight.value / 2), wallEnd.position.z);
+            }
 
             float distance = Vector3.Distance(wallStart.position, wallEnd.position);
             wall.position = wallStart.position + distance / 2 * wallStart.forward;
             wall.rotation = wallStart.rotation;
             wall.localScale = new Vector3(wall.localScale.x, wall.localScale.y, distance);
+        }
+
+        private void ConstructCreateWallsUI(VisualElement root)
+        {
+            Button createWallsButton = root.Q<Button>(name: "CreateWallsButton");
+            createWallsButton.clicked += () => EnableCreatingWalls();
+            wallThickness = root.Q<FloatField>("WallThickness");
+            wallHeight = root.Q<FloatField>("WallHeight");
+            wallThickness.RegisterValueChangedCallback(ChangeWallProperties);
+            wallHeight.RegisterValueChangedCallback(ChangeWallProperties);
         }
 
         ///-//////////////////////////////////////////////////////////////////
