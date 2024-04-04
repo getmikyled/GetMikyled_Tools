@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -34,8 +33,6 @@ namespace GetMikyled.ProceduralGenerationTerrain
             meshFilter = GetComponent<MeshFilter>();
 
             meshFilter.sharedMesh.Clear();
-            mesh = new Mesh();
-            meshFilter.sharedMesh = mesh;
 
             CreateShape();
         }

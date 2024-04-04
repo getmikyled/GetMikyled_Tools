@@ -1,0 +1,9 @@
+.d-node__main-container {
+	/*background-color: #515157;
+	padding: 8px;*/
+}
+
+.d-node__extension-container {
+	/*background-color: #333d35;
+	padding: 8px;*/
+}
