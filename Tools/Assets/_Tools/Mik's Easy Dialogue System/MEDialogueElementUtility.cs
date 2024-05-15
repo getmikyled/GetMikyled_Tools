@@ -43,6 +43,9 @@ namespace GetMikyled.MEDialogue
                 value = argValue
             };
 
+            textField[0].style.fontSize = 15;
+            textField[0].style.marginTop = 6;
+
             // Register Callback for onValueChanged
             if (onValueChanged != null)
             {

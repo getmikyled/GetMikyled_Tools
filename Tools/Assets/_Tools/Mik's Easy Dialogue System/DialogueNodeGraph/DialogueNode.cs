@@ -28,10 +28,19 @@ namespace GetMikyled.MEDialogue
 
             choices.Add("New Choice");
 
-            mainContainer.AddToClassList("d-node__main-container");
-            extensionContainer.AddToClassList("d-node__extension-container");
+            InitializeClassList();
+        }
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        protected override void InitializeClassList()
+        {
+            mainContainer.AddToClassList("dialogue-node__main-container");
+            extensionContainer.AddToClassList("dialogue-node__extension-container");
         }
         
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         public override void Draw()
         {
             // TITLE CONTAINER
@@ -40,7 +49,7 @@ namespace GetMikyled.MEDialogue
             {
                 dialogueName = newText.newValue;
             });
-
+            dialogueNameTextField.AddToClassList("dialogue-node__textfield");
             titleContainer.Insert(0, dialogueNameTextField);
 
             // MAIN CONTAINER
@@ -79,7 +88,7 @@ namespace GetMikyled.MEDialogue
                 text = newText.newValue;
             });
             textFoldout.Add(textTextField);
-            mainContainer.Add(textFoldout);
+            textContainer.Add(textFoldout);
 
             RefreshExpandedState();
         }

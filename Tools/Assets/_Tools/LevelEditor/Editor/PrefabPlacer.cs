@@ -13,18 +13,26 @@ namespace GetMikyled.LevelEditor
         private const string PREFAB_FOLDER_PATH = "Assets/Prefabs";
         private const string SELECT_FOLDER_NAME = "-- Select Folder --";
 
+        // UI Caches
         Foldout prefabView;
         VisualElement buttonView;
         DropdownField prefabFolderDropDown;
         List<string> prefabFolderNames;
 
+        // In-Game GameObject Caches
         GameObject level;
         GameObject selectedPrefab;
         GameObject previewPrefab;
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        /// Creates the 'Level' GameObject that contains all instantiated
+        /// prefabs as children
+        ///
         private void CreateLevel()
         {
-            if (GameObject.Find("Level") != null) // checks if the scene already has a game object named level
+            // checks if the scene already has a game object named level
+            if (GameObject.Find("Level") != null)
             {
                 level = GameObject.Find("Level");
             }
@@ -44,6 +52,7 @@ namespace GetMikyled.LevelEditor
         {
             prefabView = root.Q<Foldout>(name: "PrefabView");
 
+            // Creates the button view containing prefabs for selection
             buttonView = new VisualElement();
             buttonView.style.flexDirection = FlexDirection.Row;
             buttonView.style.flexWrap = Wrap.Wrap;
@@ -57,7 +66,7 @@ namespace GetMikyled.LevelEditor
         {
             GetPrefabFolders();
 
-            // Create dropdown for selecting folder
+            // Create dropdown for selecting the prefab folder
             prefabFolderDropDown = new DropdownField();
             prefabFolderDropDown.label = "Prefab Folder";
             prefabFolderDropDown.choices = prefabFolderNames;
@@ -82,6 +91,7 @@ namespace GetMikyled.LevelEditor
 
                 foreach (string prefabGuid in prefabGuids)
                 {
+                    // Get the prefab and get images for ui button
                     string prefabPath = AssetDatabase.GUIDToAssetPath(prefabGuid);
                     GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
                     Texture2D prefabTexture = AssetPreview.GetAssetPreview(prefab);
@@ -90,6 +100,7 @@ namespace GetMikyled.LevelEditor
 
                     if (prefabImage != null)
                     {
+                        // Create the button used for selecting the prefab
                         Button newPrefabButton = new Button();
                         newPrefabButton.style.width = buttonSize;
                         newPrefabButton.style.height = buttonSize;
@@ -134,10 +145,9 @@ namespace GetMikyled.LevelEditor
         {
             if (buildMode == BuildMode.PrefabPlacer)
             {
-
                 Event evt = Event.current;
                 int id = GUIUtility.GetControlID(FocusType.Passive);
-
+                
                 switch (evt.type)
                 {
                     case EventType.Layout:
@@ -148,7 +158,6 @@ namespace GetMikyled.LevelEditor
                             HandleUtility.AddDefaultControl(id);
 
                             UpdatePreviewPrefabPosition(evt);
-
                             break;
                         }
                     case EventType.MouseDown:
@@ -161,7 +170,6 @@ namespace GetMikyled.LevelEditor
 
                             evt.Use();
                         }
-
                         break;
                     case EventType.MouseUp:
                         if (evt.button == 0 && GUIUtility.hotControl == id)
@@ -170,7 +178,6 @@ namespace GetMikyled.LevelEditor
 
                             evt.Use();
                         }
-
                         break;
                 }
             }
@@ -225,11 +232,15 @@ namespace GetMikyled.LevelEditor
 
                 if (doGridSnapping)
                 {
-                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x.Round(gridSize), previewPrefab.transform.position.y + meshHeight / 2, previewPrefab.transform.position.z.Round(gridSize));
+                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x.Round(gridSize),
+                                                                 previewPrefab.transform.position.y + meshHeight / 2,
+                                                                   previewPrefab.transform.position.z.Round(gridSize));
                 }
                 else
                 {
-                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x, previewPrefab.transform.position.y + meshHeight / 2, previewPrefab.transform.position.z);
+                    previewPrefab.transform.position = new Vector3(previewPrefab.transform.position.x, 
+                                                                 previewPrefab.transform.position.y + meshHeight / 2, 
+                                                                   previewPrefab.transform.position.z);
                 }
             }
         }

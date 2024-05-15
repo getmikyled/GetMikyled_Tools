@@ -16,16 +16,12 @@ namespace GetMikyled.MEDialogue
         private static string graphFolderPath = "Assets/Resources/Dialogue";
         private static string graphDataFolderPath = "Assets/_Tools/DialogueSystem/GraphData";
 
-        private static List<DialogueNode> nodes;
-
 #region Saving
         public static void InitializeSave(MEDGraphView argGraphView, string argFileName)
         {
             Debug.Log("Save initialized");
             graphView = argGraphView;
             fileName = argFileName;
-
-            nodes = new List<DialogueNode>();
 
             CreateStaticFolders();
             CreateDSGraphFile();
@@ -72,13 +68,16 @@ namespace GetMikyled.MEDialogue
             {
                 if (graphElement is DialogueNode node)
                 {
-                    nodes.Add(node);
-                    SO_DialogueNode dialogueSO = CreateAsset<SO_DialogueNode>( graphDataFolderPath + "/" + fileName, node.dialogueName);
-                    dialogueSO.dialogueName = node.dialogueName;
-                    dialogueSO.text = node.text; 
-                    dialogueSO.choices = node.choices;
-                    dialogueSO.position = node.GetPosition();
+                    SO_DialogueNode dialogueNodeSO = CreateAsset<SO_DialogueNode>( graphDataFolderPath + "/" + fileName, node.dialogueName);
+                    dialogueNodeSO.dialogueName = node.dialogueName;
+                    dialogueNodeSO.text = node.text; 
+                    dialogueNodeSO.choices = node.choices;
+                    dialogueNodeSO.position = node.GetPosition();
                     return;
+                }
+                else if (graphElement is StartNode)
+                {
+                   SO_StartNode startNodeSO = CreateAsset<SO_StartNode>();
                 }
             });
             AssetDatabase.SaveAssets();

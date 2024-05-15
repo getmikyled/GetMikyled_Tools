@@ -71,7 +71,7 @@ namespace GetMikyled.MEDialogue
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
-            this.AddManipulator(CreateContextualMenu());
+            this.AddManipulator(CreateDialogueContextualMenu());
             this.AddManipulator(CreateStartContextualMenu());
         }
         
@@ -89,7 +89,7 @@ namespace GetMikyled.MEDialogue
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private IManipulator CreateContextualMenu()
+        private IManipulator CreateDialogueContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Dialogue Node",
@@ -116,6 +116,8 @@ namespace GetMikyled.MEDialogue
         private StartNode CreateStartNode(Vector2 argPos)
         {
             StartNode startNode = new StartNode(new Rect(argPos, Vector3.zero));
+
+            startNode.Draw();
 
             return startNode;
         }
