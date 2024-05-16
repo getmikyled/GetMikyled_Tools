@@ -4,6 +4,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 
 namespace GetMikyled.MEDialogue 
 {
@@ -12,6 +13,7 @@ namespace GetMikyled.MEDialogue
     public class MEDIOUtility
     {
         private static MEDGraphView graphView;
+        private static SO_MEDialogueGraph meDialogueGraphFile;
         private static string fileName;
         private static string graphFolderPath = "Assets/Resources/Dialogue";
         private static string graphDataFolderPath = "Assets/_Tools/DialogueSystem/GraphData";
@@ -55,7 +57,7 @@ namespace GetMikyled.MEDialogue
         {
             CreateFolder(graphDataFolderPath, fileName);
             
-            SO_MEDialogueGraph meDialogueGraphFile = CreateAsset<SO_MEDialogueGraph>(graphFolderPath, fileName);
+            meDialogueGraphFile = CreateAsset<SO_MEDialogueGraph>(graphFolderPath, fileName);
             meDialogueGraphFile.filePath = graphDataFolderPath + "/" + fileName;
             GetElementsFromGraphView();
         }
@@ -64,20 +66,18 @@ namespace GetMikyled.MEDialogue
         ///
         private static void GetElementsFromGraphView()
         {
+            HashSet<string> savedNodes = new HashSet<string>();
             graphView.graphElements.ForEach(graphElement =>
             {
-                if (graphElement is DialogueNode node)
+                if (graphElement is DialogueNode dNode)
                 {
-                    SO_DialogueNode dialogueNodeSO = CreateAsset<SO_DialogueNode>( graphDataFolderPath + "/" + fileName, node.dialogueName);
-                    dialogueNodeSO.dialogueName = node.dialogueName;
-                    dialogueNodeSO.text = node.text; 
-                    dialogueNodeSO.choices = node.choices;
-                    dialogueNodeSO.position = node.GetPosition();
-                    return;
+                    meDialogueGraphFile.CreateDialogueNode(dNode);
+                    savedNodes.Add(dNode.nodeID);
                 }
-                else if (graphElement is StartNode)
+                else if (graphElement is StartNode sNode)
                 {
-                   SO_StartNode startNodeSO = CreateAsset<SO_StartNode>();
+                    meDialogueGraphFile.CreateStartNode(sNode);
+                    savedNodes.Add(sNode.nodeID);
                 }
             });
             AssetDatabase.SaveAssets();
@@ -92,9 +92,9 @@ namespace GetMikyled.MEDialogue
 
             T asset = AssetDatabase.LoadAssetAtPath<T>(fullPath);
 
+            // If asset isn't found, create a new asset
             if (asset == null)
             {
-                Debug.Log("Created Asset " + argAssetName);
                 asset = ScriptableObject.CreateInstance<T>();
 
                 AssetDatabase.CreateAsset(asset, fullPath);

@@ -10,13 +10,13 @@ namespace GetMikyled.MEDialogue
     ///
     public class StartNode : MEDNodeBase
     {
-        public string startNodeName;
+        public string conversationName;
         
         ///-//////////////////////////////////////////////////////////////////= 
         ///
         public StartNode(Rect argPosition) : base(argPosition)
         {
-            startNodeName = "Conversation";
+            conversationName = "Conversation";
 
             InitializeClassList();
         }
@@ -38,7 +38,7 @@ namespace GetMikyled.MEDialogue
         public override void Draw()
         {
             // Title Container
-            TextField conversationNameField = MEDialogueElementUtility.CreateTextField(startNodeName, "Start Node");
+            TextField conversationNameField = MEDialogueElementUtility.CreateTextField(conversationName, "Start Node");
             conversationNameField.AddToClassList("start-node__textfield");
             
             titleContainer.Insert(0, conversationNameField);

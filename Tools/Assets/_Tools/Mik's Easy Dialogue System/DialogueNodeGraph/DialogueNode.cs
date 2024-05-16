@@ -63,7 +63,7 @@ namespace GetMikyled.MEDialogue
 
             // PORT CONTAINER
             // input
-            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
+            inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
             inputPort.portName = "Input";
             inputContainer.Add(inputPort);
 
@@ -107,6 +107,7 @@ namespace GetMikyled.MEDialogue
             choicePort.Add(choiceTextField);
             choicePort.Add(deleteChoiceButton);
 
+            outputPorts.Add(choicePort);
             outputContainer.Add(choicePort);
 
             RefreshExpandedState();

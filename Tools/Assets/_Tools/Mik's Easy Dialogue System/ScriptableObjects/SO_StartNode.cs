@@ -7,6 +7,12 @@ namespace GetMikyled.MEDialogue
     public class SO_StartNode : SO_MEDNodeBase
     {
         public string conversationName;
-        public SO_DialogueNode nextNode;
+        public int nextNodeID;
+
+        public void Initialize(string argConversationName, int argNextNodeID)
+        {
+            conversationName = argConversationName;
+            nextNodeID = argNextNodeID;
+        }
     }
 }

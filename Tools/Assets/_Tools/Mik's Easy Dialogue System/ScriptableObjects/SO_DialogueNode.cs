@@ -9,11 +9,13 @@ namespace GetMikyled.MEDialogue
     ///
     public class SO_DialogueNode : SO_MEDNodeBase
     {
-        [SerializeField] public string dialogueName;
-        [SerializeField][TextArea] public string text;
-        [SerializeField] public List<string> choices;
-        [FormerlySerializedAs("nodePosition")] [SerializeField] public Rect position;
+        public string dialogueName;
+        [TextArea] public string text;
+        public List<string> choices;
+        public Rect position;
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         public void Initialize(string argDialogueName, string argText, List<string> argChoices, Rect argNodePosition)
         {
             dialogueName = argDialogueName;

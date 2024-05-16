@@ -8,6 +8,6 @@ namespace GetMikyled.MEDialogue
     ///
     public class SO_MEDNodeBase : ScriptableObject
     {
-
+        
     }
 }
