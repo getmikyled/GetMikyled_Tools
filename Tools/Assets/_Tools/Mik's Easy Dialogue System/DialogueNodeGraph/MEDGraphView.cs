@@ -60,6 +60,13 @@ namespace GetMikyled.MEDialogue
             styleSheets.Add(nodeStyleSheet);
         }
 
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public void ClearGraphElements()
+        {
+            graphElements.ForEach(element => RemoveElement(element));
+        }
+
         #region Manipulators
 
         ///-//////////////////////////////////////////////////////////////////
@@ -99,23 +106,48 @@ namespace GetMikyled.MEDialogue
             return contextualMenuManipulator;
         }
 
-        #endregion // Manipulators
+#endregion // Manipulators
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        public void CreateNodes(List<SO_DialogueNode> nodes)
+        public void CreateNodes(List<StartNodeSaveData> sNodes, List<DialogueNodeSaveData> dNodes)
         {
-            foreach (SO_DialogueNode node in nodes)
+            // Create Start Nodes
+            foreach (StartNodeSaveData sNodeSaveData in sNodes)
             {
-                AddElement(CreateDialogueNode(node));
+                AddElement(CreateStartNode(sNodeSaveData));
+            }
+            
+            // Create Dialogue Nodes
+            foreach (DialogueNodeSaveData dNodeSaveData in dNodes)
+            {
+                AddElement(CreateDialogueNode(dNodeSaveData));
             }
         }
+        
+#region Node Creation
 
         ///-//////////////////////////////////////////////////////////////////
         ///
         private StartNode CreateStartNode(Vector2 argPos)
         {
+            // Create new Start Node
             StartNode startNode = new StartNode(new Rect(argPos, Vector3.zero));
+
+            startNode.Draw();
+
+            return startNode;
+        }
+
+        private StartNode CreateStartNode(StartNodeSaveData sNodeSaveData)
+        {
+            // Create new Start Node
+            StartNode startNode = new StartNode(new Rect(sNodeSaveData.position, Vector3.zero))
+            {
+                // Update Node Values w/ Save Data
+                GUID = sNodeSaveData.GUID,
+                conversationName = sNodeSaveData.conversationName
+            };
 
             startNode.Draw();
 
@@ -126,28 +158,34 @@ namespace GetMikyled.MEDialogue
         ///
         private DialogueNode CreateDialogueNode(Vector2 argPos)
         {
-            DialogueNode newNode = new DialogueNode(new Rect(argPos, Vector3.zero));
+            DialogueNode dialogueNode = new DialogueNode(new Rect(argPos, Vector3.zero));
 
-            newNode.Draw();
+            dialogueNode.Draw();
 
-            return newNode;
+            return dialogueNode;
         }
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private DialogueNode CreateDialogueNode(SO_DialogueNode node)
+        private DialogueNode CreateDialogueNode(DialogueNodeSaveData dNodeSaveData)
         {
-            DialogueNode newNode = new DialogueNode(node.position);
-            newNode.dialogueName = node.dialogueName;
-            newNode.text = node.text;
-            newNode.choices = node.choices;
-            Debug.Log("Created node at " + node.position.position);
+            // Create new dialogue node
+            DialogueNode dialogueNode = new DialogueNode(new Rect(dNodeSaveData.position, Vector2.zero))
+            {
+                // Update Node Values w/ Save Data
+                GUID = dNodeSaveData.GUID,
+                dialogueName = dNodeSaveData.dialogueName,
+                text = dNodeSaveData.text,
+                choices = dNodeSaveData.choices
+            };
 
-            newNode.Draw();
+            dialogueNode.Draw();
 
-            return newNode;
+            return dialogueNode;
         }
     }
+    
+#endregion // Node Creation
 }
 
 #endif // UNITY_EDITOR

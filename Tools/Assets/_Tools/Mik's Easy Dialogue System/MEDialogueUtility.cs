@@ -22,13 +22,8 @@ namespace GetMikyled.MEDialogue
         public static void PlayDialogueFromFile(string fileName, int nodeID)
         {
             // Get 
-            SO_MEDialogueGraph graphFile = Resources.Load<SO_MEDialogueGraph>("Dialogue/" + fileName);
-            PlayDialogue(graphFile.GetNode(nodeID));
-        }
-
-        private static void PlayDialogue(SO_MEDNodeBase node)
-        {
-            
+            MEDialogueGraph graphFile = Resources.Load<MEDialogueGraph>("Dialogue/" + fileName);
+            /*PlayDialogue(graphFile.GetNode(nodeID));*/
         }
     }
 

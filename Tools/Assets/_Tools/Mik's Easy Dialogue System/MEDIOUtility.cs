@@ -13,10 +13,9 @@ namespace GetMikyled.MEDialogue
     public class MEDIOUtility
     {
         private static MEDGraphView graphView;
-        private static SO_MEDialogueGraph meDialogueGraphFile;
+        private static MEDialogueGraph meDialogueGraphFile;
         private static string fileName;
         private static string graphFolderPath = "Assets/Resources/Dialogue";
-        private static string graphDataFolderPath = "Assets/_Tools/DialogueSystem/GraphData";
 
 #region Saving
         public static void InitializeSave(MEDGraphView argGraphView, string argFileName)
@@ -33,9 +32,8 @@ namespace GetMikyled.MEDialogue
         ///
         public static void CreateStaticFolders()
         {
-            CreateFolder("Assets/_Tools/DialogueSystem", "GraphData");  // Folder that holds graph and node data
             CreateFolder("Assets", "Resources");  
-            CreateFolder("Assets/Resources", "Dialogue");                             // Folder that holds dialog graph files
+            CreateFolder("Assets/Resources", "Dialogue");   // Folder that holds dialog graph files
         }
 
 
@@ -47,7 +45,6 @@ namespace GetMikyled.MEDialogue
             {
                 return;
             }
-            Debug.Log("Created " + argFolderName);
             AssetDatabase.CreateFolder(argPath, argFolderName);
         }
         
@@ -55,11 +52,9 @@ namespace GetMikyled.MEDialogue
         ///
         public static void CreateDSGraphFile()
         {
-            CreateFolder(graphDataFolderPath, fileName);
-            
-            meDialogueGraphFile = CreateAsset<SO_MEDialogueGraph>(graphFolderPath, fileName);
-            meDialogueGraphFile.filePath = graphDataFolderPath + "/" + fileName;
+            meDialogueGraphFile = CreateAsset<MEDialogueGraph>(graphFolderPath, fileName);
             GetElementsFromGraphView();
+            EditorUtility.SetDirty(meDialogueGraphFile);
         }
 
         ///-//////////////////////////////////////////////////////////////////
@@ -69,15 +64,15 @@ namespace GetMikyled.MEDialogue
             HashSet<string> savedNodes = new HashSet<string>();
             graphView.graphElements.ForEach(graphElement =>
             {
-                if (graphElement is DialogueNode dNode)
+                if (graphElement is StartNode sNode)
                 {
-                    meDialogueGraphFile.CreateDialogueNode(dNode);
-                    savedNodes.Add(dNode.nodeID);
+                    meDialogueGraphFile.SaveStartNode(sNode);
+                    savedNodes.Add(sNode.GUID);
                 }
-                else if (graphElement is StartNode sNode)
+                else if (graphElement is DialogueNode dNode)
                 {
-                    meDialogueGraphFile.CreateStartNode(sNode);
-                    savedNodes.Add(sNode.nodeID);
+                    meDialogueGraphFile.SaveDialogueNode(dNode);
+                    savedNodes.Add(dNode.GUID);
                 }
             });
             AssetDatabase.SaveAssets();
@@ -90,7 +85,7 @@ namespace GetMikyled.MEDialogue
         {
             string fullPath = $"{argPath}/{argAssetName}.asset";
 
-            T asset = AssetDatabase.LoadAssetAtPath<T>(fullPath);
+            T asset = LoadAsset<T>(fullPath);
 
             // If asset isn't found, create a new asset
             if (asset == null)
@@ -107,23 +102,13 @@ namespace GetMikyled.MEDialogue
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        public static void LoadFile(MEDGraphView medGraphView,SO_MEDialogueGraph meDialogueGraph)
+        public static void LoadFile(MEDGraphView medGraphView, MEDialogueGraph meDialogueGraph)
         {
-            // Return if there is no file path
-            if (meDialogueGraph.filePath == null)
-            {
-                Debug.LogWarning("Warning: No File Path Found");
-                return;
-            }
+            // Clear the graph view of existing nodes
+            medGraphView.ClearGraphElements();
             
-            List<SO_DialogueNode> nodes = new List<SO_DialogueNode>();
-            string[] fileGUIDs = AssetDatabase.FindAssets("t:SO_DialogueNode", new [] {meDialogueGraph.filePath});
-            foreach (string guid in fileGUIDs)
-            {
-                string guidPath = AssetDatabase.GUIDToAssetPath(guid);
-                nodes.Add(LoadAsset<SO_DialogueNode>(guidPath));
-            }
-            medGraphView.CreateNodes(nodes);
+            // Add nodes from save data
+            medGraphView.CreateNodes(meDialogueGraph.startNodes, meDialogueGraph.dialogueNodes);
         }
 
         ///-//////////////////////////////////////////////////////////////////

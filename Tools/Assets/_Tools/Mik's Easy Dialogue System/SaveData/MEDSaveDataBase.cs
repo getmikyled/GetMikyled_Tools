@@ -6,8 +6,10 @@ namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    public class SO_MEDNodeBase : ScriptableObject
+    public class MEDSaveDataBase
     {
-        
+        public string GUID;
+        public Vector2 position;
     }
+
 }

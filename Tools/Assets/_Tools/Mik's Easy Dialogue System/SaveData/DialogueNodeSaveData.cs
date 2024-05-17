@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,21 +8,21 @@ namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    public class SO_DialogueNode : SO_MEDNodeBase
+    [Serializable]
+    public class DialogueNodeSaveData : MEDSaveDataBase
     {
         public string dialogueName;
-        [TextArea] public string text;
+        public string text;
         public List<string> choices;
-        public Rect position;
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        public void Initialize(string argDialogueName, string argText, List<string> argChoices, Rect argNodePosition)
+        public void Initialize(string argDialogueName, string argText, List<string> argChoices, Vector2 argPosition)
         {
             dialogueName = argDialogueName;
             text = argText;
             choices = argChoices;
-            position = argNodePosition;
+            position = argPosition;
         }
     }
 }

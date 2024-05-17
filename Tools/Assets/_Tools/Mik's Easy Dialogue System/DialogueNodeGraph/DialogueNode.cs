@@ -63,7 +63,7 @@ namespace GetMikyled.MEDialogue
 
             // PORT CONTAINER
             // input
-            inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
+            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
             inputPort.portName = "Input";
             inputContainer.Add(inputPort);
 
@@ -97,17 +97,21 @@ namespace GetMikyled.MEDialogue
         ///
         private void AddChoice(string argChoice)
         {
-            // Create Choice UI
+            // Create Choice UI //
             Port choicePort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
             choicePort.portName = "";
-
+            // Delete Button -> Deletes the choice
             Button deleteChoiceButton = new Button() { text = "X" };
-            TextField choiceTextField = new TextField() { value = argChoice };
+            // TextField contains ChoiceName
+            TextField choiceTextField = MEDialogueElementUtility.CreateTextField("Choice", null, (value) =>
+            {
+                int index = choices.IndexOf(value.previousValue);
+                choices[index] = value.newValue;
+            });
             choiceTextField.style.flexDirection = FlexDirection.Column;
             choicePort.Add(choiceTextField);
             choicePort.Add(deleteChoiceButton);
-
-            outputPorts.Add(choicePort);
+            
             outputContainer.Add(choicePort);
 
             RefreshExpandedState();

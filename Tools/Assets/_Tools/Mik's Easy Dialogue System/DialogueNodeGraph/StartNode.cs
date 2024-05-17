@@ -38,7 +38,11 @@ namespace GetMikyled.MEDialogue
         public override void Draw()
         {
             // Title Container
-            TextField conversationNameField = MEDialogueElementUtility.CreateTextField(conversationName, "Start Node");
+            TextField conversationNameField = MEDialogueElementUtility.CreateTextField(conversationName, "Start Node", 
+                (value) =>
+            {
+                conversationName = value.newValue;
+            });
             conversationNameField.AddToClassList("start-node__textfield");
             
             titleContainer.Insert(0, conversationNameField);

@@ -10,13 +10,11 @@ namespace GetMikyled.MEDialogue
     ///
     public abstract class MEDNodeBase : Node
     {
-        public string nodeID;
-        public Port inputPort;
-        public List<Port> outputPorts;
+        public string GUID;
         
         public MEDNodeBase(Rect argPosition)
         {
-            nodeID = GUID.Generate().ToString();
+            GUID = UnityEditor.GUID.Generate().ToString();
             SetPosition(argPosition);
         }
 

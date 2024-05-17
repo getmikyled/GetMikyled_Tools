@@ -12,7 +12,7 @@ namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    public class MEDialogue : EditorWindow
+    public class MEDialogueWindow : EditorWindow
     {
         private const string defaultFileName = "DialogueFile";
 
@@ -23,14 +23,14 @@ namespace GetMikyled.MEDialogue
         [MenuItem("Window/Dialog Graph")]
         public static void OpenFromMenu()
         {
-            GetWindow<MEDialogue>("MEDialogue");
+            GetWindow<MEDialogueWindow>("MEDialogue");
         }
         
         ///-//////////////////////////////////////////////////////////////////
         ///
-        public static void OpenFromFile(SO_MEDialogueGraph soMeDialogueGraph)
+        public static void OpenFromFile(MEDialogueGraph soMeDialogueGraph)
         {
-            GetWindow<MEDialogue>("MEDialogue");  
+            GetWindow<MEDialogueWindow>("MEDialogue");  
             if (soMeDialogueGraph != null)
             {
                 MEDIOUtility.LoadFile(_medGraphView, soMeDialogueGraph);
