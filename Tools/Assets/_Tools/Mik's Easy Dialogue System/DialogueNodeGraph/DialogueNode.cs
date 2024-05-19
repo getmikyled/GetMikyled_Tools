@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
-
+using System;
 using UnityEditor.Experimental.GraphView;
 
 namespace GetMikyled.MEDialogue
@@ -15,18 +15,16 @@ namespace GetMikyled.MEDialogue
     {
 
         public string dialogueName;
-        public List<string> choices;
-        public string text;
-
+        public Dictionary<string, string> choices;  // Port GUID -> Choice Name
+        public string dialogueText;
+        
         ///-//////////////////////////////////////////////////////////////////
         ///
         public DialogueNode(Rect argPosition) : base(argPosition)
         {
             dialogueName = "Dialogue Name";
-            choices = new List<string>();
-            text = "Insert Dialogue Text";
-
-            choices.Add("New Choice");
+            choices = new Dictionary<string, string>();
+            dialogueText = "Insert Dialogue Text";
 
             InitializeClassList();
         }
@@ -45,7 +43,7 @@ namespace GetMikyled.MEDialogue
         {
             // TITLE CONTAINER
 
-            TextField dialogueNameTextField = MEDialogueElementUtility.CreateTextField("Dialogue Name", null, (newText) =>
+            TextField dialogueNameTextField = MEDialogueElementUtility.CreateTextField(dialogueName, null, (newText) =>
             {
                 dialogueName = newText.newValue;
             });
@@ -55,22 +53,19 @@ namespace GetMikyled.MEDialogue
             // MAIN CONTAINER
             Button addChoiceButton = MEDialogueElementUtility.CreateButton("Add Choice", () =>
             {
-                choices.Add("New Choice");
-                AddChoice("Next");
+                string choiceGUID = Guid.NewGuid().ToString();
+                choices.Add(choiceGUID, "New Choice");
+                AddChoice(choiceGUID);
             });
 
             mainContainer.Insert(1, addChoiceButton);
 
             // PORT CONTAINER
-            // input
-            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
-            inputPort.portName = "Input";
-            inputContainer.Add(inputPort);
-
+            
             // output
-            foreach (string choice in choices)
+            foreach (string choiceGUID in choices.Keys)
             {
-                AddChoice(choice);
+                AddChoice(choiceGUID);
             }
 
             // EXTENSION CONTAINER
@@ -83,9 +78,9 @@ namespace GetMikyled.MEDialogue
             {
                 text = "Dialogue Text"
             };
-            TextField textTextField = MEDialogueElementUtility.CreateTextArea("Insert text here", null, (newText) =>
+            TextField textTextField = MEDialogueElementUtility.CreateTextArea(dialogueText, null, (newText) =>
             {
-                text = newText.newValue;
+                dialogueText = newText.newValue;
             });
             textFoldout.Add(textTextField);
             textContainer.Add(textFoldout);
@@ -95,18 +90,18 @@ namespace GetMikyled.MEDialogue
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private void AddChoice(string argChoice)
+        private void AddChoice(string choiceGUID)
         {
             // Create Choice UI //
-            Port choicePort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            choicePort.portName = "";
+            MEDPort choicePort = CreateOutputPort(choiceGUID);
+            
             // Delete Button -> Deletes the choice
             Button deleteChoiceButton = new Button() { text = "X" };
+            
             // TextField contains ChoiceName
-            TextField choiceTextField = MEDialogueElementUtility.CreateTextField("Choice", null, (value) =>
+            TextField choiceTextField = MEDialogueElementUtility.CreateTextField(choices[choiceGUID], null, (value) =>
             {
-                int index = choices.IndexOf(value.previousValue);
-                choices[index] = value.newValue;
+                choices[choiceGUID] = value.newValue;
             });
             choiceTextField.style.flexDirection = FlexDirection.Column;
             choicePort.Add(choiceTextField);

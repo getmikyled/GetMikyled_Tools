@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 #if UNITY_EDITOR 
+using UnityEditor.Callbacks;
 using UnityEditor;
 #endif //UNITY_EDITOR 
 
@@ -20,11 +18,13 @@ namespace GetMikyled.MEDialogue
     {
         public List<StartNodeSaveData> startNodes;
         public List<DialogueNodeSaveData> dialogueNodes;
+        public List<EdgeSaveData> edges;
 
         public MEDialogueGraph()
         {
             startNodes = new List<StartNodeSaveData>();
             dialogueNodes = new List<DialogueNodeSaveData>();
+            edges = new List<EdgeSaveData>();
         }
         
 #if UNITY_EDITOR 
@@ -54,16 +54,14 @@ namespace GetMikyled.MEDialogue
             if (sNodeSaveData == null)
             {
                 // If graph node is new, create new save data
-                sNodeSaveData = new StartNodeSaveData()
-                {
-                    GUID = graphNode.GUID
-                };
+                sNodeSaveData = new StartNodeSaveData();
                 startNodes.Add(sNodeSaveData);
             }
             
-            // Save the data, and return it.
+            // Save the data
             // TO DO: Figure out how to connect nextNodeGUID
-            sNodeSaveData.Initialize(graphNode.conversationName, "", graphNode.GetPosition().position);
+            sNodeSaveData.Initialize(graphNode);
+            
             return sNodeSaveData;
         }
         
@@ -76,15 +74,12 @@ namespace GetMikyled.MEDialogue
             if (dNodeSaveData == null)
             {
                 // If graph node is new, create new save data
-                dNodeSaveData = new DialogueNodeSaveData()
-                {
-                    GUID = graphNode.GUID
-                };
+                dNodeSaveData = new DialogueNodeSaveData();
                 dialogueNodes.Add(dNodeSaveData);
             }
             
-            // Save the data, and return it.
-            dNodeSaveData.Initialize(graphNode.dialogueName, graphNode.text, graphNode.choices, graphNode.GetPosition().position);
+            // Save the data
+            dNodeSaveData.Initialize(graphNode);
             return dNodeSaveData;
         }
     }

@@ -6,10 +6,10 @@ namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    public class MEDSaveDataBase
+    public class EdgeSaveData
     {
-        public string GUID;
-        public Vector2 position;
+        public string inputGUID;
+        public string outputGUID;
     }
 
 }

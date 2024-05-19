@@ -1,46 +1,32 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
 
 using UnityEditor.Experimental.GraphView;
 
-namespace GetMikyled.MEDialogue 
+namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    [Serializable]
-    public class DialogueNodeSaveData : MEDNodeSaveDataBase
+    public class MEDNodeSaveDataBase
     {
-        public string dialogueName;
-        public string dialogueText;
+        public string GUID;
+        public Vector2 position;
 
-        public List<ChoiceSaveData> choicePorts;
+        public List<PortSaveData> inputPorts;
+        public List<PortSaveData> outputPorts;
 
-        ///-//////////////////////////////////////////////////////////////////
-        ///
-        public void Initialize(DialogueNode dNode)
+        protected virtual void SavePortsData(MEDNodeBase n)
         {
-            GUID = dNode.GUID;
-            dialogueName = dNode.dialogueName;
-            dialogueText = dNode.dialogueText;
-            position = dNode.GetPosition().position;
-            
-            SavePortsData(dNode);
-        }
-
-        ///-//////////////////////////////////////////////////////////////////
-        ///
-        protected override void SavePortsData(MEDNodeBase n)
-        {
-            DialogueNode dNode = (DialogueNode)n;
             inputPorts = new List<PortSaveData>();
-            choicePorts = new List<ChoiceSaveData>();
+            outputPorts = new List<PortSaveData>();
             
             // Save input port information
-            foreach (VisualElement element in dNode.inputContainer.Children())
+            foreach (VisualElement element in n.inputContainer.Children())
             {
                 if (element is MEDPort inputPort)
                 {
@@ -48,7 +34,7 @@ namespace GetMikyled.MEDialogue
                     PortSaveData portSaveData = new PortSaveData()
                     {
                         portGUID = inputPort.GUID,
-                        nodeGUID = dNode.GUID,
+                        nodeGUID = n.GUID
                     };
                     
                     // Add connections
@@ -61,24 +47,23 @@ namespace GetMikyled.MEDialogue
             }
             
             // Save output port information
-            foreach (VisualElement element in dNode.outputContainer.Children())
+            foreach (VisualElement element in n.outputContainer.Children())
             {
                 if (element is MEDPort outputPort)
                 {
                     // Create port save data
-                    ChoiceSaveData choiceSaveData = new ChoiceSaveData()
+                    PortSaveData portSaveData = new PortSaveData()
                     {
                         portGUID = outputPort.GUID,
-                        nodeGUID = dNode.GUID,
-                        choiceName = dNode.choices[outputPort.GUID]
+                        nodeGUID = n.GUID
                     };
                     
                     // Add connections
                     foreach (Edge edge in outputPort.connections)
                     {
-                        choiceSaveData.connectedNodeGUIDs.Add(((MEDNodeBase)edge.input.node).GUID);
+                        portSaveData.connectedNodeGUIDs.Add(((MEDNodeBase)edge.input.node).GUID);
                     }
-                    choicePorts.Add(choiceSaveData);
+                    outputPorts.Add(portSaveData);
                 }
             }
         }

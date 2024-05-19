@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
+using System;
+using UnityEditor.Experimental.GraphView;
 
 namespace GetMikyled.MEDialogue
 {
@@ -17,9 +18,12 @@ namespace GetMikyled.MEDialogue
         public StartNode(Rect argPosition) : base(argPosition)
         {
             conversationName = "Conversation";
-
+            
             InitializeClassList();
         }
+        
+        ///-//////////////////////////////////////////////////////////////////= 
+        ///
 
         ///-//////////////////////////////////////////////////////////////////= 
         ///
@@ -44,11 +48,10 @@ namespace GetMikyled.MEDialogue
                 conversationName = value.newValue;
             });
             conversationNameField.AddToClassList("start-node__textfield");
-            
             titleContainer.Insert(0, conversationNameField);
-                        
+            
             RefreshExpandedState();
         }
     }
-
 }
+#endif // UNITY_EDITOR

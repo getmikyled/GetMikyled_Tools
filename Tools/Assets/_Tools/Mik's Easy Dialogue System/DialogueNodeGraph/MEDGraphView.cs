@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
-
+using System;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering;
 
 namespace GetMikyled.MEDialogue
 {
@@ -107,39 +108,43 @@ namespace GetMikyled.MEDialogue
         }
 
 #endregion // Manipulators
-
-        ///-//////////////////////////////////////////////////////////////////
-        ///
-        public void CreateNodes(List<StartNodeSaveData> sNodes, List<DialogueNodeSaveData> dNodes)
-        {
-            // Create Start Nodes
-            foreach (StartNodeSaveData sNodeSaveData in sNodes)
-            {
-                AddElement(CreateStartNode(sNodeSaveData));
-            }
-            
-            // Create Dialogue Nodes
-            foreach (DialogueNodeSaveData dNodeSaveData in dNodes)
-            {
-                AddElement(CreateDialogueNode(dNodeSaveData));
-            }
-        }
         
-#region Node Creation
+#region Graph Element Creation
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private StartNode CreateStartNode(Vector2 argPos)
+        public Edge CreateEdge(MEDPort argInput, MEDPort argOutput)
+        {
+            Edge edge = new Edge()
+            {
+                input = argInput,
+                output = argOutput
+            };
+            
+            edge.input.Connect(edge);
+            edge.output.Connect(edge);
+            AddElement(edge);
+
+            return edge;
+        }
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public StartNode CreateStartNode(Vector2 argPos)
         {
             // Create new Start Node
             StartNode startNode = new StartNode(new Rect(argPos, Vector3.zero));
-
+            startNode.CreateOutputPort(Guid.NewGuid().ToString(), "Next Node");
+            
             startNode.Draw();
 
+            AddElement(startNode);
             return startNode;
         }
 
-        private StartNode CreateStartNode(StartNodeSaveData sNodeSaveData)
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public StartNode CreateStartNode(StartNodeSaveData sNodeSaveData)
         {
             // Create new Start Node
             StartNode startNode = new StartNode(new Rect(sNodeSaveData.position, Vector3.zero))
@@ -148,26 +153,31 @@ namespace GetMikyled.MEDialogue
                 GUID = sNodeSaveData.GUID,
                 conversationName = sNodeSaveData.conversationName
             };
+            startNode.CreateOutputPort(sNodeSaveData.outputPorts[0].portGUID, "Next Node");
 
             startNode.Draw();
 
+            AddElement(startNode);
             return startNode;
         }
 
         ///-//////////////////////////////////////////////////////////////////
-        ///
-        private DialogueNode CreateDialogueNode(Vector2 argPos)
+        /// 
+        public DialogueNode CreateDialogueNode(Vector2 argPos)
         {
             DialogueNode dialogueNode = new DialogueNode(new Rect(argPos, Vector3.zero));
+            dialogueNode.CreateInputPort(Guid.NewGuid().ToString(), "Input");
+            dialogueNode.choices.Add(Guid.NewGuid().ToString(), "New Choice");
 
             dialogueNode.Draw();
-
+            
+            AddElement(dialogueNode);
             return dialogueNode;
         }
 
         ///-//////////////////////////////////////////////////////////////////
         ///
-        private DialogueNode CreateDialogueNode(DialogueNodeSaveData dNodeSaveData)
+        public DialogueNode CreateDialogueNode(DialogueNodeSaveData dNodeSaveData)
         {
             // Create new dialogue node
             DialogueNode dialogueNode = new DialogueNode(new Rect(dNodeSaveData.position, Vector2.zero))
@@ -175,17 +185,26 @@ namespace GetMikyled.MEDialogue
                 // Update Node Values w/ Save Data
                 GUID = dNodeSaveData.GUID,
                 dialogueName = dNodeSaveData.dialogueName,
-                text = dNodeSaveData.text,
-                choices = dNodeSaveData.choices
+                dialogueText = dNodeSaveData.dialogueText,
+                choices = new Dictionary<string, string>()
             };
 
-            dialogueNode.Draw();
+            // Create Input & Output Ports
+            dialogueNode.CreateInputPort(dNodeSaveData.inputPorts[0].portGUID, "Input");
+            // Add choices to dialogueNode from choiceSaveData
+            foreach (ChoiceSaveData choiceSaveData in dNodeSaveData.choicePorts)
+            {
+                dialogueNode.choices.Add(choiceSaveData.portGUID, choiceSaveData.choiceName);
+            }
 
+            dialogueNode.Draw();
+            
+            AddElement(dialogueNode);
             return dialogueNode;
         }
     }
     
-#endregion // Node Creation
+#endregion // Graph Element Creation
 }
 
 #endif // UNITY_EDITOR

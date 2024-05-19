@@ -1,8 +1,10 @@
-#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
+#if UNITY_EDITOR
+
+using UnityEditor.Experimental.GraphView;
 
 namespace GetMikyled.MEDialogue
 {
@@ -12,9 +14,11 @@ namespace GetMikyled.MEDialogue
     {
         public string GUID;
         
+        ///-//////////////////////////////////////////////////////////////////
+        ///
         public MEDNodeBase(Rect argPosition)
         {
-            GUID = UnityEditor.GUID.Generate().ToString();
+            GUID = Guid.NewGuid().ToString();
             SetPosition(argPosition);
         }
 
@@ -25,6 +29,32 @@ namespace GetMikyled.MEDialogue
         ///-//////////////////////////////////////////////////////////////////
         ///
         public abstract void Draw();
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public MEDPort CreateInputPort(string portGUID, string portName = null)
+        {
+            MEDPort port = new MEDPort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+            port.portName = portName;
+            port.GUID = portGUID;
+            
+            inputContainer.Add(port);
+            
+            return port;
+        }
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public MEDPort CreateOutputPort(string portGUID, string portName = null)
+        {
+            MEDPort port = new MEDPort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            port.portName = portName;
+            port.GUID = portGUID;
+            
+            outputContainer.Add(port);
+            
+            return port;
+        }
     }
 }
 
