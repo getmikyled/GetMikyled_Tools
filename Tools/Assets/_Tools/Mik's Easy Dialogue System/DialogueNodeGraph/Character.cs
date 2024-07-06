@@ -6,14 +6,8 @@ namespace GetMikyled.MEDialogue
 {
     ///-//////////////////////////////////////////////////////////////////
     ///
-    [RequireComponent(typeof(Collider))]
-    public class MEDialogueTrigger : MonoBehaviour
+    public class Character
     {
-        [SerializeField] private MEDialogueGraph dialogGraphFile;
-
-        public void PlayDialogue()
-        {
-        }
         
     }
 

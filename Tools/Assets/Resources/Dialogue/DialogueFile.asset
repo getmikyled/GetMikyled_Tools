@@ -13,15 +13,27 @@ MonoBehaviour:
   m_Name: DialogueFile
   m_EditorClassIdentifier: 
   startNodes:
-  - GUID: cb4396e092736b24a8713896cc4f32cc
-    position: {x: 218.66667, y: 245.33333}
-    conversationName: DAWDA
+  - GUID: f678bb35-622d-4145-8922-66693b6f74ba
+    position: {x: 257.3333, y: 470.66666}
+    inputPorts: []
+    outputPorts:
+    - portGUID: 29fb6168-653e-49ba-8ff8-3851e354733f
+      nodeGUID: f678bb35-622d-4145-8922-66693b6f74ba
+      connectedNodeGUIDs: []
+    conversationName: Conversation
     nextNodeGUID: 
   dialogueNodes:
-  - GUID: e883e601e8e75f54abe926b10c9065eb
-    position: {x: 608, y: 268}
-    dialogueName: ADWDA
-    text: AWDAW
-    choices:
-    - New Choice
-    - New Choice
+  - GUID: 5796ba77-c43b-4a6f-b0b0-cb2345c02a66
+    position: {x: 588.6667, y: 484}
+    inputPorts:
+    - portGUID: 40ce992f-1137-4f02-8315-12b689733d6c
+      nodeGUID: 5796ba77-c43b-4a6f-b0b0-cb2345c02a66
+      connectedNodeGUIDs: []
+    outputPorts: []
+    dialogueName: Dialogue Name
+    dialogueText: dwa
+    choicePorts:
+    - portGUID: f274a9fe-021b-4291-9f7e-4b709686f460
+      nodeGUID: 5796ba77-c43b-4a6f-b0b0-cb2345c02a66
+      connectedNodeGUIDs: []
+      choiceName: wadw

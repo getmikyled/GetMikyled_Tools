@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
+using UnityEngine.TextCore.Text;
 
 namespace GetMikyled.MEDialogue
 {
@@ -38,6 +39,7 @@ namespace GetMikyled.MEDialogue
         {
             AddWindowManipulators();
             AddGridBackground();
+            CreateBlackboards();
             StylizeUI();
         }
 
@@ -110,6 +112,14 @@ namespace GetMikyled.MEDialogue
 #endregion // Manipulators
         
 #region Graph Element Creation
+
+        ///-//////////////////////////////////////////////////////////////////
+        ///
+        public void CreateBlackboards()
+        {
+            CharacterOutliner characterOutliner = new CharacterOutliner(this);
+            Add(characterOutliner);
+        }
 
         ///-//////////////////////////////////////////////////////////////////
         ///
