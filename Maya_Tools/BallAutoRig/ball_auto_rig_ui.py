@@ -88,7 +88,7 @@ class BallAutoRigDialog(QtWidgets.QDialog):
         
     def __create_ball_rig(self):
         ball_rig = BallAutoRig()
-        #ball_rig.set_colors(self.__hex_to_rgb(self.primary_color), self.__hex_to_rgb(self.secondary_color))
+        ball_rig.set_colors(self.__hex_to_rgb(self.primary_color), self.__hex_to_rgb(self.secondary_color))
         ball_rig.construct_rig()
         
     def __hex_to_rgb(self, hex_code):
