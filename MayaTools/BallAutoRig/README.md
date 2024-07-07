@@ -1,4 +1,4 @@
-# B
+# Ball Auto Rig Tool
 
 The Ball Auto Rig Tool **automates** the process of rigging a ball by **100%**
 
