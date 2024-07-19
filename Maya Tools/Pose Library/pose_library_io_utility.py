@@ -26,7 +26,7 @@ class PoseLibraryIOUtility(object):
         cls.root_folder_path = os.path.join(workspace_path, "PoseLibrary")
         
         # Create "PoseLibrary" folder
-        cls.create_folder(root_folder_path)
+        cls.create_folder(cls.root_folder_path)
         
     @classmethod
     def create_folder(cls, folder_path, exists_ok=True):
@@ -34,7 +34,7 @@ class PoseLibraryIOUtility(object):
         
     @classmethod
     def save_pose_data(cls, pose_data : PoseData, save_path, pose_name):
-        pose_file_path = os.path.join(save_path, pose_name)
+        pose_file_path = os.path.join(save_path, f"{pose_name}.pose")
         
         with open(pose_file_path, 'w') as pose_file:
             # Write pose name to file
@@ -42,7 +42,7 @@ class PoseLibraryIOUtility(object):
             
             # Iterate through all the control nodes
             for control_node in pose_data.control_nodes:
-                pose_file.write("")
+                pose_file.write("\n")
                 
                 # Write node references
                 cls.write_line_to_file(pose_file, "uuid", control_node.uuid)
@@ -50,7 +50,7 @@ class PoseLibraryIOUtility(object):
                 cls.write_line_to_file(pose_file, "full_path", control_node.full_path)
                 
                 # Write node attributes
-                for attribute, value in control_node.attributes:
+                for attribute, value in control_node.attributes.items():
                     cls.write_line_to_file(pose_file, attribute, value)
             
     @classmethod
@@ -93,25 +93,37 @@ class PoseLibraryIOUtility(object):
     
     @classmethod
     def write_line_to_file(cls, file, property, value):
-        file.write(f"{property}: {value}")
+        file.write(f"{property}: {value}\n")
     
     @classmethod
-    def get_poses_at_path(cls):
-        pass
+    def get_poses_at_path(cls, folder_path):
+        poses = {}
+        
+        # Get items at folder path
+        items = os.listdir(folder_path)
+        
+        for item in items:
+            # Check if item is a ".pose" file
+            if os.path.isfile(item) and item.endswith(".pose"):
+                pose_data = cls.load_pose_data(os.path.join(folder_path, item))
+                poses[item.split(".pose")[0]] = pose_data
+        
+        return poses
         
     @classmethod
-    def load_folders_to_hierarchy(cls, pose_library_window, hierarchy_parent, directory, reset_folders):
+    def load_folders_to_hierarchy(cls, pose_library_window, hierarchy_parent, root_path, reset_folders):
         if reset_folders:
-            folders = {}
+            cls.folders = {}
+            cls.folders[os.path.basename(root_path)] = root_path
         
-        items = os.listdir(directory)
+        items = os.listdir(root_path)
         
         for item in items:
             # Check if item is a directory
-            if os.path.isdir(item):
+            folder_path = os.path.join(root_path, item)
+            if os.path.isdir(folder_path):
                 # Save folder name and folder path to dictionary
-                folder_path = os.path.join(directory, item)
-                folders[item] = folder_path
+                cls.folders[item] = folder_path
                 
                 folder_hierarchy_item = pose_library_window.create_hierarchy_item(item)
                 pose_library_window.add_to_hierarchy(hierarchy_parent, folder_hierarchy_item)
