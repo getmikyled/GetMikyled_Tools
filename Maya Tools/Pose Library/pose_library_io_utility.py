@@ -120,5 +120,18 @@ class PoseLibraryIOUtility(object):
                 cls.load_folders_to_hierarchy(pose_library_window, folder_hierarchy_item, folder_path, False)
         
     @classmethod
-    def capture_rig_image(cls, rig_capture_path, rig_capture_name):
-        pass
+    def capture_rig_image(cls, rig_capture_path, capture_width=RIG_CAPTURE_HEIGHT, capture_height=RIG_CAPTURE_HEIGHT):
+        # Capture image of rig
+        cmds.playblast(
+            completeFilename=rig_capture_path,
+            format='image',
+            viewer=False,
+            framePadding=4,
+            width=capture_width,
+            height=capture_height,
+            percent=100,
+            quality=100,
+            showOrnaments=False,
+            startTime=cmds.currentTime(query=True),
+            endTime=cmds.currentTime(query=True)
+        )
