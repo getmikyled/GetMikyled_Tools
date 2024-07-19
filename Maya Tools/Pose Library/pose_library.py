@@ -8,8 +8,6 @@ from pose_library_data import ControlNodeData
 
 from auto_rig_helpers import AutoRigHelpers
 
-from auto_rig_helpers import AutoRigHelpers
-
 class PoseLibrary(object):
     
     selected_folder = ""
@@ -20,7 +18,7 @@ class PoseLibrary(object):
         cls.selected_folder = new_folder
         
         folder_path = PoseLibraryIOUtility.folders[new_folder]
-        cls.poses = PoseLibraryIOUtility.load_poses_at_path(folder_path)
+        cls.poses = PoseLibraryIOUtility.get_poses_at_path(folder_path)
         
     @classmethod
     def load_pose_to_rig(cls, pose_data):

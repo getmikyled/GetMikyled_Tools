@@ -9,9 +9,9 @@ from pose_library_data import ControlNodeData
 class PoseLibraryIOUtility(object):
 
     CN_START = 1
-    CN_ATTR_START = 4
+    CN_ATTR_START = 5
     CN_ATTR_COUNT = 3
-    CN_ATTR_INC = 6
+    CN_ATTR_INC = 7
 
     RIG_CAPTURE_WIDTH = 500
     RIG_CAPTURE_HEIGHT = 400
@@ -59,8 +59,8 @@ class PoseLibraryIOUtility(object):
         pose_data = PoseData()
         
         # Read lines in PoseData
-        with open(pose_file, 'r') as pose_file:
-            lines = pose_file.readLines()
+        with open(pose_path, 'r') as pose_file:
+            lines = pose_file.readlines()
             
         # Read poses name
         pose_name = cls.read_value_from_property(lines[0])
@@ -85,11 +85,11 @@ class PoseLibraryIOUtility(object):
             
     @classmethod
     def read_value_from_property(cls, line):
-        return line.split(": ")[1]
+        return line.split(": ")[1].strip()
         
     @classmethod
     def read_property(cls, line):
-        return line.split(": "[0])
+        return line.split(": ")[0]
     
     @classmethod
     def write_line_to_file(cls, file, property, value):
@@ -103,11 +103,13 @@ class PoseLibraryIOUtility(object):
         items = os.listdir(folder_path)
         
         for item in items:
+            # Get pose path
+            pose_path = os.path.join(folder_path, item)
+            
             # Check if item is a ".pose" file
-            if os.path.isfile(item) and item.endswith(".pose"):
-                pose_data = cls.load_pose_data(os.path.join(folder_path, item))
+            if os.path.isfile(pose_path) and item.endswith(".pose"):
+                pose_data = cls.load_pose_data(pose_path)
                 poses[item.split(".pose")[0]] = pose_data
-        
         return poses
         
     @classmethod
