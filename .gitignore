@@ -70,3 +70,42 @@ Tools/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 # Temporary auto-generated Android Assets
 Tools/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Tools/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+#################################
+# Unreal Engine Generated Files #
+#################################
+UnrealTools/[Bb]uild
+UnrealTools/[Bb]uilds
+UnrealTools/Binaries
+UnrealTools/DerivedDataCache
+UnrealTools/Saved
+
+#################################
+# Visual Studio Generated Files #
+#################################
+# Cache Directory
+.vs
+# User Specific Files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# CPP Cache Files
+*.VC.db
+*.opendb
+*.opensdf
+*.sdf
+# Solution Files
+*.sln
+# VSCode Cache Directory
+.vscode
+# VSCode History Files
+**/.history
+
+#################################
+# Miscellaneous Generated Files #
+#################################
+# ADD AS NEED BE
+UnrealTechArt/Plugins/HoudiniNiagara/Content/PointCache/P_on_surface.uasset
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealGame/Shipping/HoudiniEngineRuntime/PCH.HoudiniEngineRuntime.h.pch
