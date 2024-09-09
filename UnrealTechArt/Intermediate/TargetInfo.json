@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "UnrealTechArt",
+			"Path": "..\\Source\\UnrealTechArt.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "UnrealTechArtEditor",
+			"Path": "..\\Source\\UnrealTechArtEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

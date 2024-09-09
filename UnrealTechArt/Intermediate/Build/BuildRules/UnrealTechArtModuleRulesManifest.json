@@ -1,0 +1,16 @@
+{
+	"SourceFiles": [
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Source\\UnrealTechArt\\UnrealTechArt.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\EditorTools\\Source\\EditorTools\\EditorTools.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniEngine\\Source\\HoudiniEngineEditor\\HoudiniEngineEditor.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniEngine\\Source\\HoudiniEngineRuntime\\HoudiniEngineRuntime.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniEngine\\Source\\HoudiniEngine\\HoudiniEngine.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniLiveLink\\Source\\HoudiniLiveLink\\HoudiniLiveLink.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniNiagara\\Source\\HoudiniNiagaraEditor\\HoudiniNiagaraEditor.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\HoudiniNiagara\\Source\\HoudiniNiagara\\HoudiniNiagara.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Plugins\\Mythica\\Source\\Mythica\\Mythica.Build.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Source\\UnrealTechArt.Target.cs",
+		"D:\\GitHub\\GetMikyled_Tools\\UnrealTechArt\\Source\\UnrealTechArtEditor.Target.cs"
+	],
+	"EngineVersion": "5.4.4"
+}
