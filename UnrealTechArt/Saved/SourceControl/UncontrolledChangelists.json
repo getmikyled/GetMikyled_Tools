@@ -1,0 +1,17 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Content/PCG/SplineWallTool/WallSegment.uasset",
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Content/PCG/SplineWallTool/BP_SplineWall.uasset",
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Content/_Tools/Blueprints/BP_Actor.uasset",
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Plugins/EditorTools/Content/BP_EditorToolsAssetActionUtility.uasset",
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Content/ThirdPerson/Maps/_GENERATED/mikin/WallSegment.uasset",
+				"D:/GitHub/GetMikyled_Tools/UnrealTechArt/Content/PCG/WallSplineTool/WallSegment.uasset"
+			]
+		}
+	]
+}

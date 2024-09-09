@@ -1,0 +1,60 @@
+Log started at 09/04/2024 15:37:35 (2024-09-04T22:37:35Z)
+No config file at C:\ProgramData\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\mikin\AppData\Local\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\mikin\Documents\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Configuration will be read from:
+  C:\Users\mikin\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Log file: D:\GitHub\GetMikyled_Tools\UnrealTechArt\Saved\Logs\UnrealVersionSelector-2024.09.04-15.37.34.log
+
+Setting temp directory to 'C:\Users\mikin\AppData\Local\Temp\UnrealBuildTool\6e23c306'
+    Registering build platform: UnrealBuildTool.AndroidPlatformFactory
+        Registering build platform: Android - buildable: False
+    Registering build platform: UnrealBuildTool.IOSPlatformFactory
+        Registering build platform: IOS - buildable: False
+    Registering build platform: UnrealBuildTool.LinuxPlatformFactory
+        Registering build platform: Linux - buildable: False
+        Registering build platform: LinuxArm64 - buildable: False
+    Registering build platform: UnrealBuildTool.MacPlatformFactory
+    Registering build platform: UnrealBuildTool.TVOSPlatformFactory
+        Registering build platform: TVOS - buildable: False
+    Registering build platform: UnrealBuildTool.WindowsPlatformFactory
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (1)
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (2)
+Found Windows 10 SDK version 10.0.19041.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.19041.0 at C:\Program Files (x86)\Windows Kits\10
+Found Windows 10 SDK version 10.0.22000.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.22000.0 at C:\Program Files (x86)\Windows Kits\10
+Win64 Installed SDK(s): MinVersion_Sdk=10.0.18362.0, MaxVersion_Sdk=10.9.99999.0, CurrentVersion_Sdk=10.0.19041.0, Version_AutoSdk=10.0.19041.0, CurrentVersion_AutoSdk=
+        Registering build platform: Win64 - buildable: True
+    Registering build platform: UnrealBuildTool.VisionOSPlatformFactory
+Log file: C:\Users\mikin\AppData\Local\UnrealBuildTool\Log_GPF.txt
+Deleting old log file: C:\Users\mikin\AppData\Local\UnrealBuildTool\Log_GPF-backup-2024.09.04-18.00.56.txt
+Resolved project argument D:/GitHub/GetMikyled_Tools/UnrealTechArt/UnrealTechArt.uproject to D:\GitHub\GetMikyled_Tools\UnrealTechArt\UnrealTechArt.uproject
+Registering project generator UnrealBuildTool.AndroidProjectGenerator for Android
+Registering project generator UnrealBuildTool.IOSProjectGenerator for IOS
+Registering project generator UnrealBuildTool.LinuxProjectGenerator for Linux
+Registering project generator UnrealBuildTool.LinuxProjectGenerator for LinuxArm64
+Registering project generator UnrealBuildTool.MacProjectGenerator for Mac
+Skipping project file generator registration for Mac due to no valid BuildPlatform.
+Registering project generator UnrealBuildTool.TVOSProjectGenerator for TVOS
+Registering project generator UnrealBuildTool.WindowsProjectGenerator for Win64
+Registering project generator UnrealBuildTool.VisionOSProjectGenerator for VisionOS
+Skipping project file generator registration for VisionOS due to no valid BuildPlatform.
+
+---   SDK INFO START   ---
+
+Some Platforms were skipped due to invalid SDK setup: IOS, Android, Linux, LinuxArm64, TVOS.
+See the log file for detailed information
+
+---   SDK INFO END   ---
+
+
+Generating VisualStudio project files:
+Discovering modules, targets and source code for project...
+Found VisualStudioUnsupported installation: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community (Product=Microsoft.VisualStudio.Product.Community, Version=16.11.34902.97)
+Found VisualStudio2022 installation: C:\Program Files\Microsoft Visual Studio\2022\Community (Product=Microsoft.VisualStudio.Product.Community, Version=17.6.33723.286)
+Found Visual Studio toolchain: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133 (Family=14.29.30133, FamilyRank=5, Version=14.29.30154, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64, Error=True, Redist=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.29.30133)
+Found Visual Studio toolchain: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532 (Family=14.36.32532, FamilyRank=2, Version=14.36.32532, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64, Error=False, Redist=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\14.36.32532)
+Detected supported platforms: Win64, IOS, Android, Linux, LinuxArm64, TVOS
+Skipping C:\Program Files\Epic Games\UE_5.4\Engine\Intermediate\Build\BuildRules\UE5Rules.dll: File is installed
+Skipping C:\Program Files\Epic Games\UE_5.4\Engine\Intermediate\Build\BuildRules\UE5ProgramRules.dll: File is installed

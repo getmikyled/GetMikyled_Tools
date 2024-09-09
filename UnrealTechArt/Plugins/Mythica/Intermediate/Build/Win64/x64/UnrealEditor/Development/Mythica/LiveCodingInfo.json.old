@@ -1,0 +1,13 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.Mythica.cpp.obj": [
+			"Mythica.init.gen.cpp.obj",
+			"MythicaDeveloperSettings.gen.cpp.obj",
+			"MythicaEditorSubsystem.gen.cpp.obj",
+			"Mythica.cpp.obj",
+			"MythicaDeveloperSettings.cpp.obj",
+			"MythicaEditorSubsystem.cpp.obj"
+		]
+	}
+}
