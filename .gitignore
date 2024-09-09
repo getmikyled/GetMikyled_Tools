@@ -109,3 +109,10 @@ UnrealTools/Saved
 # ADD AS NEED BE
 UnrealTechArt/Plugins/HoudiniNiagara/Content/PointCache/P_on_surface.uasset
 UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealGame/Shipping/HoudiniEngineRuntime/PCH.HoudiniEngineRuntime.h.pch
+UnrealTechArt/Intermediate/Build/Win64/x64/UnrealTechArtEditor/Development/UnrealEd/SharedPCH.UnrealEd.Cpp20.h.pch
+UnrealTechArt/Intermediate/Build/Win64/x64/UnrealTechArtEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.InclOrderOldest.h.pch
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealEditor/Development/HoudiniEngine/PCH.HoudiniEngine.h.pch
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealEditor/Development/HoudiniEngineEditor/Module.HoudiniEngineEditor.3.cpp.obj
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealEditor/Development/HoudiniEngineEditor/Module.HoudiniEngineEditor.4.cpp.obj
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealEditor/Development/HoudiniEngineEditor/PCH.HoudiniEngineEditor.h.pch
+UnrealTechArt/Plugins/HoudiniEngine/Intermediate/Build/Win64/x64/UnrealEditor/Development/HoudiniEngineRuntime/PCH.HoudiniEngineRuntime.h.pch
