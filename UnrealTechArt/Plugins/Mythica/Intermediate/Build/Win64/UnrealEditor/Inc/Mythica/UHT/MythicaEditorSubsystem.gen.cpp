@@ -610,9 +610,13 @@ struct Z_Construct_UFunction_UMythicaEditorSubsystem_CreateSession_Statics
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
 		{ "Category", "Mythica" },
+#if !UE_BUILD_SHIPPING
 		{ "Comment", "// Requests\n" },
+#endif
 		{ "ModuleRelativePath", "Private/MythicaEditorSubsystem.h" },
+#if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Requests" },
+#endif
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FFunctionParams FuncParams;
@@ -691,9 +695,13 @@ struct Z_Construct_UFunction_UMythicaEditorSubsystem_GetSessionState_Statics
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
 		{ "Category", "Mythica" },
+#if !UE_BUILD_SHIPPING
 		{ "Comment", "// Getters\n" },
+#endif
 		{ "ModuleRelativePath", "Private/MythicaEditorSubsystem.h" },
+#if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Getters" },
+#endif
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FBytePropertyParams NewProp_ReturnValue;
@@ -1026,9 +1034,13 @@ struct Z_Construct_UClass_UMythicaEditorSubsystem_Statics
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OnSessionStateChanged_MetaData[] = {
 		{ "Category", "Mythica" },
+#if !UE_BUILD_SHIPPING
 		{ "Comment", "// Delegates\n" },
+#endif
 		{ "ModuleRelativePath", "Private/MythicaEditorSubsystem.h" },
+#if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Delegates" },
+#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OnAssetListUpdated_MetaData[] = {
 		{ "Category", "Mythica" },
@@ -1062,9 +1074,9 @@ struct Z_Construct_UClass_UMythicaEditorSubsystem_Statics
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
 		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_CanInstallAssets, "CanInstallAssets" }, // 584883287
-		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_CreateSession, "CreateSession" }, // 2523066506
+		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_CreateSession, "CreateSession" }, // 3670826971
 		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_GetAssetList, "GetAssetList" }, // 316365826
-		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_GetSessionState, "GetSessionState" }, // 635341879
+		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_GetSessionState, "GetSessionState" }, // 2869621172
 		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_GetStats, "GetStats" }, // 326080337
 		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_GetThumbnail, "GetThumbnail" }, // 653862897
 		{ &Z_Construct_UFunction_UMythicaEditorSubsystem_InstallAsset, "InstallAsset" }, // 2733845239
@@ -1135,7 +1147,7 @@ UMythicaEditorSubsystem::~UMythicaEditorSubsystem() {}
 // End Class UMythicaEditorSubsystem
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics
+struct Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics
 {
 	static constexpr FEnumRegisterCompiledInInfo EnumInfo[] = {
 		{ EMythicaSessionState_StaticEnum, TEXT("EMythicaSessionState"), &Z_Registration_Info_UEnum_EMythicaSessionState, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 3044210927U) },
@@ -1146,12 +1158,12 @@ struct Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Myt
 		{ FMythicaAsset::StaticStruct, Z_Construct_UScriptStruct_FMythicaAsset_Statics::NewStructOps, TEXT("MythicaAsset"), &Z_Registration_Info_UScriptStruct_MythicaAsset, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FMythicaAsset), 3128541086U) },
 	};
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UMythicaEditorSubsystem, UMythicaEditorSubsystem::StaticClass, TEXT("UMythicaEditorSubsystem"), &Z_Registration_Info_UClass_UMythicaEditorSubsystem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UMythicaEditorSubsystem), 71829834U) },
+		{ Z_Construct_UClass_UMythicaEditorSubsystem, UMythicaEditorSubsystem::StaticClass, TEXT("UMythicaEditorSubsystem"), &Z_Registration_Info_UClass_UMythicaEditorSubsystem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UMythicaEditorSubsystem), 1425011763U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_3221604515(TEXT("/Script/Mythica"),
-	Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ClassInfo),
-	Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ScriptStructInfo),
-	Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Unreal_MythicaHarness_Plugins_Mythica_Build_Mythica_HostProject_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::EnumInfo));
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_1754637460(TEXT("/Script/Mythica"),
+	Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ClassInfo),
+	Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::ScriptStructInfo),
+	Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_Mythica_Source_Mythica_Private_MythicaEditorSubsystem_h_Statics::EnumInfo));
 // End Registration
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

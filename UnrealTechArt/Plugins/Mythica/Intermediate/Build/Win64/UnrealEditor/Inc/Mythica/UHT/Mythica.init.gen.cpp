@@ -29,7 +29,7 @@ void EmptyLinkFunctionForGeneratedCodeMythica_init() {}
 				SingletonFuncArray,
 				UE_ARRAY_COUNT(SingletonFuncArray),
 				PKG_CompiledIn | 0x00000040,
-				0x0618776E,
+				0xFE5E8283,
 				0xC3E63CF7,
 				METADATA_PARAMS(0, nullptr)
 			};
@@ -37,5 +37,5 @@ void EmptyLinkFunctionForGeneratedCodeMythica_init() {}
 		}
 		return Z_Registration_Info_UPackage__Script_Mythica.OuterSingleton;
 	}
-	static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_Mythica(Z_Construct_UPackage__Script_Mythica, TEXT("/Script/Mythica"), Z_Registration_Info_UPackage__Script_Mythica, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0x0618776E, 0xC3E63CF7));
+	static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_Mythica(Z_Construct_UPackage__Script_Mythica, TEXT("/Script/Mythica"), Z_Registration_Info_UPackage__Script_Mythica, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0xFE5E8283, 0xC3E63CF7));
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -1,0 +1,13 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\unrealeditor\\inc\\editortools\\uht\\editortools.init.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\getmikyled_tools\\unrealtechart\\intermediate\\build\\win64\\x64\\unrealtecharteditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.inclorderoldest.h.pch",
+        "Includes": [
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\editortools\\definitions.editortools.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
