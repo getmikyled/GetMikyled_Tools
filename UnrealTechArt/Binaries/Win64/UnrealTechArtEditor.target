@@ -6654,6 +6654,26 @@
 			"Type": "RequiredResource"
 		},
 		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/Binaries/Win64/UnrealEditor-HoudiniNiagara.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/Binaries/Win64/UnrealEditor-HoudiniNiagara.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/Binaries/Win64/UnrealEditor-HoudiniNiagaraEditor.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/Binaries/Win64/UnrealEditor-HoudiniNiagaraEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
 			"Path": "$(ProjectDir)/Plugins/Mythica/Binaries/Win64/UnrealEditor-Mythica.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -29708,6 +29728,10 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(ProjectDir)/Plugins/HoudiniNiagara/HoudiniNiagara.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(ProjectDir)/Plugins/Mythica/Mythica.uplugin",
 			"Type": "UFS"
 		},
@@ -29797,6 +29821,7 @@
 		"GooglePAD",
 		"HoudiniEngine",
 		"HoudiniLiveLink",
+		"HoudiniNiagara",
 		"IKRig",
 		"IOSDeviceProfileSelector",
 		"ImgMedia",

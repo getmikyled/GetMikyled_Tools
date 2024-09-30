@@ -79,6 +79,7 @@
 #define UE_ENABLE_INCLUDE_ORDER_DEPRECATED_IN_5_4 1
 #define UE_PROJECT_NAME UnrealTechArt
 #define UE_TARGET_NAME UnrealTechArtEditor
+#define HOUDINI_ENGINE_HFS_PATH_DEFINE C:/Program Files/Side Effects Software/Houdini 20.5.332
 #define UE_MODULE_NAME "HoudiniEngine"
 #define UE_PLUGIN_NAME "HoudiniEngine"
 #define IMPLEMENT_ENCRYPTION_KEY_REGISTRATION() 

@@ -751,7 +751,6 @@ bool FUnrealDataTableTranslator::CreateInputNodeForDataTable(
 							FHoudiniEngine::Get().GetSession(), InputNodeId, 0,
 							TCHAR_TO_ANSI(*CurAttrName), &AttributeInfo), false);
 
-
 						FHoudiniHapiAccessor Accessor(InputNodeId, 0, TCHAR_TO_ANSI(*CurAttrName));
 						HOUDINI_CHECK_RETURN(Accessor.SetAttributeData(AttributeInfo, Col), false);
 						continue;
@@ -808,10 +807,7 @@ bool FUnrealDataTableTranslator::CreateInputNodeForDataTable(
 		}
 	}
 
-
-	HOUDINI_CHECK_ERROR_RETURN(FHoudiniApi::CommitGeo(
-		FHoudiniEngine::Get().GetSession(), InputNodeId), false);
-
+	HOUDINI_CHECK_ERROR_RETURN(FHoudiniEngineUtils::HapiCommitGeo(InputNodeId), false);
 	if (!FHoudiniEngineUtils::HapiCookNode(InputNodeId, nullptr, true))
 		return false;
 

@@ -1653,6 +1653,8 @@ FHoudiniEngineUtils::LocateLibHAPIInRegistry(
 bool
 FHoudiniEngineUtils::LoadHoudiniAsset(const UHoudiniAsset * HoudiniAsset, HAPI_AssetLibraryId& OutAssetLibraryId)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::LoadHoudiniAsset);
+
 	OutAssetLibraryId = -1;
 
 	if (!IsValid(HoudiniAsset))
@@ -2321,18 +2323,19 @@ bool FHoudiniEngineUtils::GetOutputIndex(const HAPI_NodeId& InNodeId, int32& Out
 
 bool
 FHoudiniEngineUtils::GatherAllAssetOutputs(
-	const HAPI_NodeId& AssetId,
-	const bool bUseOutputNodes,
-	const bool bOutputTemplatedGeos,
+	HAPI_NodeId AssetId,
+	bool bUseOutputNodes,
+	bool bOutputTemplatedGeos,
+	bool bGatherEditableCurves,
 	TArray<HAPI_NodeId>& OutOutputNodes)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::GatherAllAssetOutputs);
+
 	OutOutputNodes.Empty();
 	
 	// Ensure the asset has a valid node ID
 	if (AssetId < 0)
-	{
 		return false;
-	}
 
 	// Get the AssetInfo
 	HAPI_AssetInfo AssetInfo;
@@ -2343,8 +2346,17 @@ FHoudiniEngineUtils::GatherAllAssetOutputs(
 	// Get the Asset NodeInfo
 	HAPI_NodeInfo AssetNodeInfo;
 	FHoudiniApi::NodeInfo_Init(&AssetNodeInfo);
-	HOUDINI_CHECK_ERROR_RETURN(FHoudiniApi::GetNodeInfo(
-		FHoudiniEngine::Get().GetSession(), AssetId, &AssetNodeInfo), false);
+	HAPI_Result NodeResult = FHoudiniApi::GetNodeInfo(
+		FHoudiniEngine::Get().GetSession(), AssetId, &AssetNodeInfo);
+
+	if (HAPI_RESULT_SUCCESS != NodeResult)
+	{
+		// Don't log invalid argument errors here
+		if (NodeResult != HAPI_RESULT_INVALID_ARGUMENT)
+			HOUDINI_CHECK_ERROR_RETURN(NodeResult, false);
+		else
+			return false;
+	}
 
 	FString CurrentAssetName;
 	{
@@ -2400,7 +2412,7 @@ FHoudiniEngineUtils::GatherAllAssetOutputs(
 				continue;
 
 			// We only handle editable curves for now
-			if (CurrentEditableGeoInfo.type != HAPI_GEOTYPE_CURVE)
+			if (CurrentEditableGeoInfo.type != HAPI_GEOTYPE_CURVE || !bGatherEditableCurves)
 				continue;
 
 			// Add this geo to the geo info array
@@ -2978,6 +2990,8 @@ FHoudiniEngineUtils::ConvertHoudiniRotEulerToUnrealVector(const TArray<float>& I
 bool
 FHoudiniEngineUtils::UploadHACTransform(UHoudiniAssetComponent* HAC)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::UploadHACTransform);
+
 	if (!HAC || !HAC->bUploadTransformsToHoudiniEngine)
 		return false;
 
@@ -3196,6 +3210,8 @@ FHoudiniEngineUtils::UpdateEditorProperties(const bool bInForceFullUpdate)
 
 void FHoudiniEngineUtils::UpdateBlueprintEditor(UHoudiniAssetComponent* HAC)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::UpdateBlueprintEditor);
+
 	if (!IsInGameThread())
 	{
 		// We need to be in the game thread to trigger editor properties update
@@ -3214,6 +3230,8 @@ void FHoudiniEngineUtils::UpdateBlueprintEditor(UHoudiniAssetComponent* HAC)
 void
 FHoudiniEngineUtils::UpdateEditorProperties_Internal(const bool bInForceFullUpdate)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::UpdateEditorProperties_Internal);
+
 #if WITH_EDITOR
 #define HOUDINI_USE_DETAILS_FOCUS_HACK 1
 
@@ -6928,6 +6946,8 @@ FHoudiniEngineUtils::CreateNode(
 	const HAPI_Bool& bInCookOnCreation,
 	HAPI_NodeId* OutNewNodeId)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::CreateNode);
+
 	// Call HAPI::CreateNode
 	HAPI_Result Result = FHoudiniApi::CreateNode(
 		FHoudiniEngine::Get().GetSession(),
@@ -6996,10 +7016,6 @@ FHoudiniEngineUtils::GetLevelPathAttribute(
 
 	FHoudiniHapiAccessor Accessor(InGeoId, InPartId, HAPI_UNREAL_ATTRIB_LEVEL_PATH);
 	bool bSuccess = Accessor.GetAttributeData(InAttributeOwner, 1, OutLevelPaths, InStartIndex, InCount);
-
-
-	HAPI_AttributeInfo AttributeInfo;
-	FHoudiniApi::AttributeInfo_Init(&AttributeInfo);
 
 	if (bSuccess && OutLevelPaths.Num() > 0)
 		return true;
@@ -7409,7 +7425,7 @@ FHoudiniEngineUtils::GetBakeFolderAttribute(
 {
 	OutBakeFolder.Empty();
 
-	FHoudiniHapiAccessor Accessor(InNodeId, InPartId, HAPI_UNREAL_ATTRIB_TEMP_FOLDER);
+	FHoudiniHapiAccessor Accessor(InNodeId, InPartId, HAPI_UNREAL_ATTRIB_BAKE_FOLDER);
 	bool bSuccess = Accessor.GetAttributeData(InAttributeOwner, 1, OutBakeFolder, InStart, InCount);
 
 	if (bSuccess && OutBakeFolder.Num() > 0)
@@ -7503,10 +7519,6 @@ FHoudiniEngineUtils::GetBakeActorAttribute(
 
 	FHoudiniHapiAccessor Accessor(InNodeId, InPartId, HAPI_UNREAL_ATTRIB_BAKE_ACTOR);
 	bool bSuccess = Accessor.GetAttributeData(InAttributeOwner, 1, OutBakeActorNames, InStart, InCount);
-
-
-	HAPI_AttributeInfo AttributeInfo;
-	FHoudiniApi::AttributeInfo_Init(&AttributeInfo);
 
 	if (bSuccess && OutBakeActorNames.Num() > 0)
 		return true;
@@ -7725,6 +7737,13 @@ FHoudiniEngineUtils::MoveActorToLevel(AActor* InActor, ULevel* InDesiredLevel)
 	return true;
 }
 
+HAPI_Result
+FHoudiniEngineUtils::HapiCommitGeo(const HAPI_NodeId& InNodeId)
+{
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::HapiCommitGeo);
+	return FHoudiniApi::CommitGeo(FHoudiniEngine::Get().GetSession(), InNodeId);
+}
+
 bool
 FHoudiniEngineUtils::HapiCookNode(const HAPI_NodeId& InNodeId, HAPI_CookOptions* InCookOptions, const bool& bWaitForCompletion)
 {
@@ -7784,6 +7803,8 @@ FHoudiniEngineUtils::HapiCookNode(const HAPI_NodeId& InNodeId, HAPI_CookOptions*
 HAPI_Result
 FHoudiniEngineUtils::CreateInputNode(const FString& InNodeLabel, HAPI_NodeId& OutNodeId, const int32 InParentNodeId)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineUtils::CreateInputNode);
+
 	HAPI_NodeId NodeId = -1;
 	HAPI_Session const* const Session = FHoudiniEngine::Get().GetSession();
 
@@ -7912,9 +7933,8 @@ FHoudiniEngineUtils::UpdateMeshPartUVSets(
 
 	// Also look for 16.5 uvs (attributes with a Texture type) 
 	// For that, we'll have to iterate through ALL the attributes and check their types
-	TArray< FString > FoundAttributeNames; 
-	TArray< HAPI_AttributeInfo > FoundAttributeInfos;
-		
+	TArray<FString> FoundAttributeNames;
+	TArray<HAPI_AttributeInfo> FoundAttributeInfos;
 	for (int32 AttrIdx = 0; AttrIdx < HAPI_ATTROWNER_MAX; ++AttrIdx)
 	{
 		FHoudiniEngineUtils::HapiGetAttributeOfType(

@@ -98,6 +98,9 @@ struct HOUDINIENGINE_API FHoudiniEngineUtils
 		// if bWaitForCompletion is true, this call will be blocking until the cook is finished
 		static bool HapiCookNode(const HAPI_NodeId& InNodeId, HAPI_CookOptions* InCookOptions = nullptr, const bool& bWaitForCompletion = false);
 
+		// Wrapper for CommitGeo - adds a profiler scope wrapper
+		static HAPI_Result HapiCommitGeo(const HAPI_NodeId& InNodeId);
+
 		// Return a specified HAPI status string.
 		static const FString GetStatusString(HAPI_StatusType status_type, HAPI_StatusVerbosity verbosity);
 
@@ -202,9 +205,10 @@ struct HOUDINIENGINE_API FHoudiniEngineUtils
 		static bool GetOutputIndex(const HAPI_NodeId& InNodeId, int32& OutOutputIndex);
 
 		static bool GatherAllAssetOutputs(
-			const HAPI_NodeId& InAssetId,
-			const bool bUseOutputNodes,
-			const bool bOutputTemplatedGeos,
+			HAPI_NodeId InAssetId,
+			bool bUseOutputNodes,
+			bool bOutputTemplatedGeos,
+			bool bGatherEditableCurves,
 			TArray<HAPI_NodeId>& OutOutputNodes); 
 
 		// Get the immediate output geo infos for the given Geometry object network.

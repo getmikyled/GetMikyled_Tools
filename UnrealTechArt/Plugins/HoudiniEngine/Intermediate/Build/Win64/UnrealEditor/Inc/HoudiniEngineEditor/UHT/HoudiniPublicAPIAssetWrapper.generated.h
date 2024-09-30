@@ -11,6 +11,7 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
  class UHoudiniPublicAPIInput;
  struct FHoudiniParameterTuple;
+class AActor;
 class AHoudiniAssetActor;
 class UHoudiniAssetComponent;
 class UHoudiniPDGAssetLink;
@@ -154,6 +155,7 @@ static void FOnHoudiniAssetProxyMeshesRefinedDelegate_DelegateWrapper(const FMul
 	virtual bool SetColorParameterValue_Implementation(FName InParameterTupleName, FLinearColor const& InValue, bool bInMarkChanged); \
 	virtual bool GetFloatParameterValue_Implementation(FName InParameterTupleName, float& OutValue, int32 InAtIndex) const; \
 	virtual bool SetFloatParameterValue_Implementation(FName InParameterTupleName, float InValue, int32 InAtIndex, bool bInMarkChanged); \
+	virtual TArray<AActor*> GetBakedOutputActors_Implementation(); \
 	virtual bool GetReplacePreviousBake_Implementation() const; \
 	virtual bool SetReplacePreviousBake_Implementation(bool bInReplacePreviousBake); \
 	virtual bool GetRecenterBakedActors_Implementation() const; \
@@ -263,6 +265,7 @@ static void FOnHoudiniAssetProxyMeshesRefinedDelegate_DelegateWrapper(const FMul
 	DECLARE_FUNCTION(execSetColorParameterValue); \
 	DECLARE_FUNCTION(execGetFloatParameterValue); \
 	DECLARE_FUNCTION(execSetFloatParameterValue); \
+	DECLARE_FUNCTION(execGetBakedOutputActors); \
 	DECLARE_FUNCTION(execGetReplacePreviousBake); \
 	DECLARE_FUNCTION(execSetReplacePreviousBake); \
 	DECLARE_FUNCTION(execGetRecenterBakedActors); \

@@ -1,0 +1,28 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\editortools\\module.editortools.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\getmikyled_tools\\unrealtechart\\intermediate\\build\\win64\\x64\\unrealtecharteditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.inclorderoldest.h.pch",
+        "Includes": [
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\editortools\\definitions.editortools.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\unrealeditor\\inc\\editortools\\uht\\quickassetaction.gen.cpp",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\source\\editortools\\public\\quickassetaction.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\classes\\assetactionutility.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\classes\\editorutilityobject.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\runtime\\engine\\public\\iassetregistrytagproviderinterface.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\iassetregistrytagproviderinterface.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\editorutilityobject.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\public\\ieditorutilityextension.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\ieditorutilityextension.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\assetactionutility.generated.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\intermediate\\build\\win64\\unrealeditor\\inc\\editortools\\uht\\quickassetaction.generated.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\source\\editortools\\private\\editortools.cpp",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\source\\editortools\\public\\editortools.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\source\\editortools\\private\\quickassetaction.cpp",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\editortools\\source\\editortools\\public\\debugheader.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

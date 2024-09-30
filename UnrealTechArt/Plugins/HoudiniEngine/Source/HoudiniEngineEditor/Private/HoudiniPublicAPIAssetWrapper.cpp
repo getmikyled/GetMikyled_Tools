@@ -437,6 +437,36 @@ UHoudiniPublicAPIAssetWrapper::GetReplacePreviousBake_Implementation() const
 	return HAC->bReplacePreviousBake;
 }
 
+TArray<AActor*>
+UHoudiniPublicAPIAssetWrapper::GetBakedOutputActors_Implementation()
+{
+	TArray<AActor*> OutputActors;
+	UHoudiniAssetComponent* HAC = nullptr;
+	if (!GetValidHoudiniAssetComponentWithError(HAC))
+		return OutputActors;
+
+	const TArray<FHoudiniBakedOutput>& BakedOutputs = HAC->GetBakedOutputs();
+	for (const FHoudiniBakedOutput& BakedOutput : BakedOutputs) 
+	{
+		for (const auto& BakedPair : BakedOutput.BakedOutputObjects) 
+		{
+			AActor* Actor = BakedPair.Value.GetActorIfValid(true);
+			if (Actor)
+				OutputActors.Add(Actor);
+
+			// Get valid Foliage Actors
+			OutputActors.Append(BakedPair.Value.GetFoliageActorsIfValid(true));
+
+			// Get valid instanced actors
+			TArray<AActor*> InstancedActors = BakedPair.Value.GetInstancedActorsIfValid(true);
+			OutputActors.Append(InstancedActors);
+
+		}
+	}
+
+	return OutputActors;
+}
+
 bool
 UHoudiniPublicAPIAssetWrapper::GetValidHoudiniAssetActorWithError(AHoudiniAssetActor*& OutActor) const
 {

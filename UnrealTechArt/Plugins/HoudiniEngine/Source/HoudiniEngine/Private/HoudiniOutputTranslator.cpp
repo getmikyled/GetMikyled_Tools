@@ -108,7 +108,7 @@ FHoudiniOutputTranslator::UpdateOutputs(
 		TMap<HAPI_NodeId, int32> OutputNodeCookCounts = HAC->GetOutputNodeCookCounts();
 		if (FHoudiniOutputTranslator::BuildAllOutputs(
 			HAC->GetAssetId(), HAC, OutputNodes, OutputNodeCookCounts,
-			HAC->Outputs, NewOutputs, HAC->bOutputTemplateGeos, HAC->bUseOutputNodes))
+			HAC->Outputs, NewOutputs, HAC->bOutputTemplateGeos, HAC->bUseOutputNodes, HAC->bEnableCurveEditing))
 		{
 			// NOTE: For now we are currently forcing all outputs to be cleared here. There is still an issue where, in some
 			// circumstances, landscape tiles disappear when clearing outputs after processing.
@@ -787,6 +787,12 @@ FHoudiniOutputTranslator::BuildStaticMeshesOnHoudiniProxyMeshOutputs(UHoudiniAss
 bool
 FHoudiniOutputTranslator::UpdateLoadedOutputs(UHoudiniAssetComponent* HAC)
 {
+	// Nothing to do for Node Sync Components!
+	if (HAC->IsA<UHoudiniNodeSyncComponent>())
+		return true;
+
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniOutputTranslator::UpdateLoadedOutputs);
+
 	HAPI_NodeId & AssetId = HAC->AssetId;
 
 	// Retrieve information about each object contained within our asset.
@@ -1002,8 +1008,14 @@ FHoudiniOutputTranslator::UploadChangedEditableOutput(
 	UHoudiniAssetComponent* HAC,
 	const bool& bInForceUpdate) 
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniOutputTranslator::UploadChangedEditableOutput);
+
 	if (!IsValid(HAC))
 		return false;
+
+	// Nothing to do for Node Sync Components!
+	if (HAC->IsA<UHoudiniNodeSyncComponent>())
+		return true;
 
 	TArray<UHoudiniOutput*> &Outputs = HAC->Outputs;
 
@@ -1050,8 +1062,9 @@ FHoudiniOutputTranslator::BuildAllOutputs(
 	const TMap<HAPI_NodeId, int32>& OutputNodeCookCounts,
 	TArray<UHoudiniOutput*>& InOldOutputs,
 	TArray<UHoudiniOutput*>& OutNewOutputs,
-	const bool& InOutputTemplatedGeos,
-	const bool& InUseOutputNodes)
+	bool InOutputTemplatedGeos,
+	bool InUseOutputNodes, 
+	bool bGatherEditableCurves)
 {
 	// NOTE: This function still gathers output nodes from the asset id. This is old behaviour.
 	//       Output nodes are now being gathered before cooking starts and is passed in through
@@ -1166,7 +1179,7 @@ FHoudiniOutputTranslator::BuildAllOutputs(
 				continue;
 
 			// We only handle editable curves for now
-			if (CurrentEditableGeoInfo.type != HAPI_GEOTYPE_CURVE)
+			if (CurrentEditableGeoInfo.type != HAPI_GEOTYPE_CURVE || !bGatherEditableCurves)
 				continue;
 
 			// Add this geo to the geo info array
@@ -1866,12 +1879,9 @@ FHoudiniOutputTranslator::BuildAllOutputs(
 					currentHGPO.GenericPropertyAttributes);
 
 				{
-					TArray<int> KeepTagData;
-					HAPI_AttributeInfo AttrInfoKeepTag;
-					FHoudiniApi::AttributeInfo_Init(&AttrInfoKeepTag);
-
 					currentHGPO.bKeepTags = false;
 
+					TArray<int> KeepTagData;
 					FHoudiniHapiAccessor Accessor(currentHGPO.GeoId, currentHGPO.PartId, HAPI_UNREAL_ATTRIB_TAG_KEEP);
 					bool bSuccess = Accessor.GetAttributeData(HAPI_ATTROWNER_INVALID, 1, KeepTagData);
 
@@ -2148,7 +2158,7 @@ FHoudiniOutputTranslator::BuildAllOutputs(
 				}
 				// Ensure that we always update the 'Editable' state of the output since this
 				// may very well change between cooks (for example, the User is editina the HDA is session sync).
-				HoudiniOutput->SetIsEditableNode(currentHGPO.bIsEditable);
+				HoudiniOutput->SetIsEditableNode(currentHGPO.bIsEditable && bGatherEditableCurves);
 
 				// Add the HGPO to the output
 				HoudiniOutput->AddNewHGPO(currentHGPO);
@@ -2273,9 +2283,10 @@ FHoudiniOutputTranslator::BuildAllOutputs(
 bool
 FHoudiniOutputTranslator::UpdateChangedOutputs(UHoudiniAssetComponent* HAC)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniOutputTranslator::UpdateChangedOutputs);
+
 	if (!IsValid(HAC))
 		return false;
-
 
 	UObject* OuterComponent = HAC;
 
@@ -2660,9 +2671,6 @@ FHoudiniOutputTranslator::ClearOutput(UHoudiniOutput* Output)
 bool
 FHoudiniOutputTranslator::GetCustomPartNameFromAttribute(const HAPI_NodeId & NodeId, const HAPI_PartId & PartId, FString & OutCustomPartName) 
 {
-	HAPI_AttributeInfo CustomPartNameInfo;
-	FHoudiniApi::AttributeInfo_Init(&CustomPartNameInfo);
-
 	TArray<FString> CustomNames;
 
 	FHoudiniHapiAccessor Accessor(NodeId, PartId, HAPI_UNREAL_ATTRIB_CUSTOM_OUTPUT_NAME_V2);

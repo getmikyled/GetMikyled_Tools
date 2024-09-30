@@ -354,6 +354,16 @@ FHoudiniEngineManager::Tick(float DeltaTime)
 			// Update the tick time for this component
 			CurrentComponent->LastTickTime = dNow;
 		}
+#if WITH_EDITORONLY_DATA
+		// See if we need to update this HDA's details panel
+		if (CurrentComponent->bNeedToUpdateEditorProperties)
+		{
+			// Only do an update if the HAC is selected
+			if(CurrentComponent->IsOwnerSelected())
+				FHoudiniEngineUtils::UpdateEditorProperties(true);
+			CurrentComponent->bNeedToUpdateEditorProperties = false;
+		}
+#endif
 	}
 
 	// Handle Asset delete
@@ -418,13 +428,7 @@ FHoudiniEngineManager::AutoStartFirstSessionIfNeeded(UHoudiniAssetComponent* InC
 		|| !InCurrentHAC)
 		return;
 
-	// Only try to start the default session if we have an "active" HAC
-	const EHoudiniAssetState CurrentState = InCurrentHAC->GetAssetState();
-	if (CurrentState == EHoudiniAssetState::NewHDA
-		|| CurrentState == EHoudiniAssetState::PreInstantiation
-		|| CurrentState == EHoudiniAssetState::Instantiating
-		|| CurrentState == EHoudiniAssetState::PreCook
-		|| CurrentState == EHoudiniAssetState::Cooking)
+	if(InCurrentHAC->ShouldTryToStartFirstSession())
 	{
 		FString StatusText = TEXT("Initializing Houdini Engine...");
 		FHoudiniEngine::Get().CreateTaskSlateNotification(FText::FromString(StatusText), true, 4.0f);
@@ -481,9 +485,11 @@ FHoudiniEngineManager::ProcessComponent(UHoudiniAssetComponent* HAC)
 		// Refresh UI when pause cooking
 		if (!FHoudiniEngine::Get().HasUIFinishRefreshingWhenPausingCooking()) 
 		{
+#if WITH_EDITORONLY_DATA
 			// Trigger a details panel update if the Houdini asset actor is selected
 			if (HAC->IsOwnerSelected())
-				FHoudiniEngineUtils::UpdateEditorProperties(true);
+				HAC->bNeedToUpdateEditorProperties = true;
+#endif
 
 			// Finished refreshing UI of one HDA.
 			FHoudiniEngine::Get().RefreshUIDisplayedWhenPauseCooking();
@@ -630,7 +636,7 @@ FHoudiniEngineManager::ProcessComponent(UHoudiniAssetComponent* HAC)
 			{
 				// Gather output nodes for the HAC
 				TArray<int32> OutputNodes;
-				FHoudiniEngineUtils::GatherAllAssetOutputs(HAC->GetAssetId(), HAC->bUseOutputNodes, HAC->bOutputTemplateGeos, OutputNodes);
+				FHoudiniEngineUtils::GatherAllAssetOutputs(HAC->GetAssetId(), HAC->bUseOutputNodes, HAC->bOutputTemplateGeos, HAC->bEnableCurveEditing, OutputNodes);
 				HAC->SetOutputNodeIds(OutputNodes);
 				
 				FGuid TaskGUID = HAC->GetHapiGUID();
@@ -651,8 +657,10 @@ FHoudiniEngineManager::ProcessComponent(UHoudiniAssetComponent* HAC)
 			
 			if(!bCookStarted)
 			{
+#if WITH_EDITORONLY_DATA
 				// Just refresh editor properties?
-				FHoudiniEngineUtils::UpdateEditorProperties(true);
+				HAC->bNeedToUpdateEditorProperties = true;
+#endif
 
 				// TODO: Check! update state?
 				HAC->SetAssetState(EHoudiniAssetState::None);
@@ -720,12 +728,25 @@ FHoudiniEngineManager::ProcessComponent(UHoudiniAssetComponent* HAC)
 			// Update world inputs if we have any
 			FHoudiniInputTranslator::UpdateWorldInputs(HAC);
 
+			// Update our handles if needed
+			// This may modify parameters so we need to call this before NeedUpdate
+			FHoudiniHandleTranslator::UpdateHandlesIfNeeded(HAC);
+
 			// Do nothing unless the HAC has been updated
 			if (HAC->NeedUpdate())
 			{
 				HAC->bForceNeedUpdate = false;
+
 				// Update the HAC's state
-				HAC->SetAssetState(EHoudiniAssetState::PreCook);
+				// Cook for valid nodes - instantiate for invalid nodes
+				if (FHoudiniEngineUtils::IsHoudiniNodeValid(HAC->GetAssetId()))
+					HAC->SetAssetState(EHoudiniAssetState::PreCook);
+				else
+				{
+					// Mark as needcook first to make sure we preserve/upload all params/inputs
+					HAC->MarkAsNeedCook();
+					HAC->SetAssetState(EHoudiniAssetState::PreInstantiation);
+				}
 			}
 			else if (HAC->bCookOnTransformChange && HAC->bUploadTransformsToHoudiniEngine && HAC->bHasComponentTransformChanged)
 			{
@@ -881,6 +902,8 @@ FHoudiniEngineManager::StartTaskAssetInstantiation(UHoudiniAsset* HoudiniAsset, 
 bool 
 FHoudiniEngineManager::UpdateInstantiating(UHoudiniAssetComponent* HAC, EHoudiniAssetState& NewState )
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineManager::UpdateInstantiating);
+
 	check(HAC);
 
 	// Will return true if the asset's state need to be updated
@@ -1059,6 +1082,8 @@ FHoudiniEngineManager::StartTaskAssetCooking(
 	bool bOutputTemplateGeos,
 	FGuid& OutTaskGUID)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineManager::StartTaskAssetCooking);
+
 	// Make sure we have a valid session before attempting anything
 	if (!FHoudiniEngine::Get().GetSession())
 		return false;
@@ -1268,8 +1293,8 @@ FHoudiniEngineManager::PostCook(UHoudiniAssetComponent* HAC, const bool& bSucces
 		FHoudiniOutputTranslator::UpdateOutputs(HAC, ForceUpdate, bHasHoudiniStaticMeshOutput);
 		HAC->SetNoProxyMeshNextCookRequested(false);
 
-		// Handles have to be updated after parameters
-		FHoudiniHandleTranslator::UpdateHandles(HAC);  
+		// Handles have to be built after the parameters
+		FHoudiniHandleTranslator::BuildHandles(HAC);
 
 		// Clear the HasBeenLoaded flag
 		if (HAC->HasBeenLoaded())
@@ -1294,8 +1319,10 @@ FHoudiniEngineManager::PostCook(UHoudiniAssetComponent* HAC, const bool& bSucces
 
 		FHoudiniEngine::Get().UpdateCookingNotification(FText::FromString(DisplayName + " :\nFinished processing outputs"), true);
 
-		// Trigger a details panel update
-		FHoudiniEngineUtils::UpdateEditorProperties(true);
+#if WITH_EDITORONLY_DATA
+		// Indicate we want to trigger a details panel update
+		HAC->bNeedToUpdateEditorProperties = true;
+#endif
 
 		// If any outputs have HoudiniStaticMeshes, and if timer based refinement is enabled on the HAC,
 		// set the RefineMeshesTimer and ensure BuildStaticMeshesForAllHoudiniStaticMeshes is bound to
@@ -1328,8 +1355,8 @@ FHoudiniEngineManager::PostCook(UHoudiniAssetComponent* HAC, const bool& bSucces
 
 	if (bNeedsToTriggerViewportUpdate && GEditor)
 	{
-		// We need to manually update the vieport with HoudiniMeshProxies
-		// if not, modification made in H with the two way debugger wont be visible in Unreal until the vieports gets focus
+		// We need to manually update the viewport with HoudiniMeshProxies
+		// if not, modification made in H with the two way debugger wont be visible in Unreal until the viewports gets focus
 		GEditor->RedrawAllViewports(false);
 	}
 
@@ -1361,6 +1388,8 @@ FHoudiniEngineManager::UpdateProcess(UHoudiniAssetComponent* HAC)
 bool
 FHoudiniEngineManager::StartTaskAssetRebuild(const HAPI_NodeId& InAssetId, FGuid& OutTaskGUID)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineManager::StartTaskAssetRebuild);
+
 	// Check this HAC doesn't already have a running task
 	if (OutTaskGUID.IsValid())
 		return false;
@@ -1389,6 +1418,8 @@ FHoudiniEngineManager::StartTaskAssetRebuild(const HAPI_NodeId& InAssetId, FGuid
 bool
 FHoudiniEngineManager::StartTaskAssetDelete(const HAPI_NodeId& InNodeId, FGuid& OutTaskGUID, bool bShouldDeleteParent)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngineManager::StartTaskAssetDelete);
+
 	if (InNodeId < 0)
 		return false;
 

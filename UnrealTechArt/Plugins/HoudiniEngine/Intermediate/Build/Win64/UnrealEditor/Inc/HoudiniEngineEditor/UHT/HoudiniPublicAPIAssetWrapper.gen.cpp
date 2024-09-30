@@ -15,6 +15,7 @@ COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDirectoryPath();
 COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FLinearColor();
+ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 HOUDINIENGINEEDITOR_API UClass* Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper();
 HOUDINIENGINEEDITOR_API UClass* Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper_NoRegister();
 HOUDINIENGINEEDITOR_API UClass* Z_Construct_UClass_UHoudiniPublicAPIInput_NoRegister();
@@ -1435,6 +1436,64 @@ DEFINE_FUNCTION(UHoudiniPublicAPIAssetWrapper::execGetAssetRefParameterValue)
 	P_NATIVE_END;
 }
 // End Class UHoudiniPublicAPIAssetWrapper Function GetAssetRefParameterValue
+
+// Begin Class UHoudiniPublicAPIAssetWrapper Function GetBakedOutputActors
+struct HoudiniPublicAPIAssetWrapper_eventGetBakedOutputActors_Parms
+{
+	TArray<AActor*> ReturnValue;
+};
+static FName NAME_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors = FName(TEXT("GetBakedOutputActors"));
+TArray<AActor*> UHoudiniPublicAPIAssetWrapper::GetBakedOutputActors()
+{
+	HoudiniPublicAPIAssetWrapper_eventGetBakedOutputActors_Parms Parms;
+	ProcessEvent(FindFunctionChecked(NAME_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors),&Parms);
+	return Parms.ReturnValue;
+}
+struct Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "Category", "Houdini|Public API" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "/**\n\x09 * Gets all generated Actors which are the result of a bake.\n\x09 * @return array of scene actors from bake action.\n\x09*/" },
+#endif
+		{ "ModuleRelativePath", "Public/HoudiniPublicAPIAssetWrapper.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Gets all generated Actors which are the result of a bake.\n@return array of scene actors from bake action." },
+#endif
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ReturnValue_Inner;
+	static const UECodeGen_Private::FArrayPropertyParams NewProp_ReturnValue;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::NewProp_ReturnValue_Inner = { "ReturnValue", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(HoudiniPublicAPIAssetWrapper_eventGetBakedOutputActors_Parms, ReturnValue), EArrayPropertyFlags::None, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::NewProp_ReturnValue_Inner,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::NewProp_ReturnValue,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper, nullptr, "GetBakedOutputActors", nullptr, nullptr, Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::PropPointers), sizeof(HoudiniPublicAPIAssetWrapper_eventGetBakedOutputActors_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x0C020C00, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::Function_MetaDataParams), Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::Function_MetaDataParams) };
+static_assert(sizeof(HoudiniPublicAPIAssetWrapper_eventGetBakedOutputActors_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UHoudiniPublicAPIAssetWrapper::execGetBakedOutputActors)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	*(TArray<AActor*>*)Z_Param__Result=P_THIS->GetBakedOutputActors_Implementation();
+	P_NATIVE_END;
+}
+// End Class UHoudiniPublicAPIAssetWrapper Function GetBakedOutputActors
 
 // Begin Class UHoudiniPublicAPIAssetWrapper Function GetBakeFolder
 struct HoudiniPublicAPIAssetWrapper_eventGetBakeFolder_Parms
@@ -9506,6 +9565,7 @@ void UHoudiniPublicAPIAssetWrapper::StaticRegisterNativesUHoudiniPublicAPIAssetW
 		{ "CreateWrapper", &UHoudiniPublicAPIAssetWrapper::execCreateWrapper },
 		{ "DeleteInstantiatedAsset", &UHoudiniPublicAPIAssetWrapper::execDeleteInstantiatedAsset },
 		{ "GetAssetRefParameterValue", &UHoudiniPublicAPIAssetWrapper::execGetAssetRefParameterValue },
+		{ "GetBakedOutputActors", &UHoudiniPublicAPIAssetWrapper::execGetBakedOutputActors },
 		{ "GetBakeFolder", &UHoudiniPublicAPIAssetWrapper::execGetBakeFolder },
 		{ "GetBakeMethod", &UHoudiniPublicAPIAssetWrapper::execGetBakeMethod },
 		{ "GetBoolParameterValue", &UHoudiniPublicAPIAssetWrapper::execGetBoolParameterValue },
@@ -9790,6 +9850,7 @@ struct Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper_Statics
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_CreateWrapper, "CreateWrapper" }, // 257242702
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_DeleteInstantiatedAsset, "DeleteInstantiatedAsset" }, // 2640533068
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetAssetRefParameterValue, "GetAssetRefParameterValue" }, // 3679290836
+		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakedOutputActors, "GetBakedOutputActors" }, // 2279804093
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakeFolder, "GetBakeFolder" }, // 753156120
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBakeMethod, "GetBakeMethod" }, // 2272867079
 		{ &Z_Construct_UFunction_UHoudiniPublicAPIAssetWrapper_GetBoolParameterValue, "GetBoolParameterValue" }, // 3418602384
@@ -9982,10 +10043,10 @@ struct Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_Houd
 		{ FHoudiniParameterTuple::StaticStruct, Z_Construct_UScriptStruct_FHoudiniParameterTuple_Statics::NewStructOps, TEXT("HoudiniParameterTuple"), &Z_Registration_Info_UScriptStruct_HoudiniParameterTuple, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FHoudiniParameterTuple), 2018865649U) },
 	};
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper, UHoudiniPublicAPIAssetWrapper::StaticClass, TEXT("UHoudiniPublicAPIAssetWrapper"), &Z_Registration_Info_UClass_UHoudiniPublicAPIAssetWrapper, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UHoudiniPublicAPIAssetWrapper), 2376853797U) },
+		{ Z_Construct_UClass_UHoudiniPublicAPIAssetWrapper, UHoudiniPublicAPIAssetWrapper::StaticClass, TEXT("UHoudiniPublicAPIAssetWrapper"), &Z_Registration_Info_UClass_UHoudiniPublicAPIAssetWrapper, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UHoudiniPublicAPIAssetWrapper), 1168515476U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_3804254446(TEXT("/Script/HoudiniEngineEditor"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_1899045704(TEXT("/Script/HoudiniEngineEditor"),
 	Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_Statics::ClassInfo),
 	Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_UnrealTechArt_Plugins_HoudiniEngine_Source_HoudiniEngineEditor_Public_HoudiniPublicAPIAssetWrapper_h_Statics::ScriptStructInfo),
 	nullptr, 0);

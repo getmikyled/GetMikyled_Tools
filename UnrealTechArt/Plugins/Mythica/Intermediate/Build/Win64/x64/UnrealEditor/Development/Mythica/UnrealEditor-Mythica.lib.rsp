@@ -8,8 +8,5 @@
 /NODEFAULTLIB
 "D:\GitHub\GetMikyled_Tools\UnrealTechArt\Intermediate\Build\Win64\x64\UnrealTechArtEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.InclOrderOldest.h.obj"
 "D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\Module.Mythica.cpp.obj"
-"D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\MythicaDeveloperSettings.gen.cpp.obj"
-"D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\Mythica.init.gen.cpp.obj"
-"D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\MythicaEditorSubsystem.gen.cpp.obj"
 "D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\Default.rc2.res"
 /OUT:"D:\GitHub\GetMikyled_Tools\UnrealTechArt\Plugins\Mythica\Intermediate\Build\Win64\x64\UnrealEditor\Development\Mythica\UnrealEditor-Mythica.lib"

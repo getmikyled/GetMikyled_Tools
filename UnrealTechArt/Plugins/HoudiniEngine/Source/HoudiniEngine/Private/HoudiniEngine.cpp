@@ -344,7 +344,10 @@ FHoudiniEngine::ShutdownModule()
 	// Perform HAPI finalization.
 	if ( FHoudiniApi::IsHAPIInitialized() )
 	{
-		FHoudiniApi::Cleanup(GetSession());
+		// Only cleanup if we're not using SessionSync!
+		if (!bEnableSessionSync)
+			FHoudiniApi::Cleanup(GetSession());
+
 		FHoudiniApi::CloseSession(GetSession());
 		SessionStatus = EHoudiniSessionStatus::Invalid;
 	}
@@ -1116,10 +1119,13 @@ FHoudiniEngine::StopSession()
 	if (!FHoudiniApi::IsHAPIInitialized())
 		return false;
 
+	// If the current session is valid, clean up and close the session
 	if (HAPI_RESULT_SUCCESS == FHoudiniApi::IsSessionValid(GetSession()))
 	{
-		// Session is valid, clean up and close the session
-		FHoudiniApi::Cleanup(GetSession());
+		// Only cleanup if we're not using SessionSync!
+		if(!bEnableSessionSync)
+			FHoudiniApi::Cleanup(GetSession());
+
 		FHoudiniApi::CloseSession(GetSession());
 	}
 
@@ -1423,6 +1429,8 @@ FHoudiniEngine::FinishTaskSlateNotification(const FText& InText)
 
 bool FHoudiniEngine::UpdateCookingNotification(const FText& InText, const bool bExpireAndFade)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngine::UpdateCookingNotification);
+
 #if WITH_EDITOR
 	TimeSinceLastPersistentNotification = 0.0;
 
@@ -1445,13 +1453,17 @@ bool FHoudiniEngine::UpdateCookingNotification(const FText& InText, const bool b
 		if (HoudiniBrush.IsValid())
 			Info.Image = HoudiniBrush.Get();
 
-
-		CookingNotificationPtr = FSlateNotificationManager::Get().AddNotification(Info);
+		{
+			TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngine::UpdateCookingNotification__AddNotification);
+			CookingNotificationPtr = FSlateNotificationManager::Get().AddNotification(Info);
+		}
 	}
 
 	TSharedPtr<SNotificationItem> NotificationItem = CookingNotificationPtr.Pin();
 	if (NotificationItem.IsValid())
 	{
+		TRACE_CPUPROFILER_EVENT_SCOPE(FHoudiniEngine::UpdateCookingNotification__UpdateNotification);
+
 		// Update the persistent notification.
 		NotificationItem->SetText(InText);
 		
