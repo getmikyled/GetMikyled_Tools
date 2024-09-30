@@ -54,6 +54,9 @@
     <ClCompile Include="..\..\Plugins\EditorTools\Source\EditorTools\Private\QuickAssetAction.cpp">
       <Filter>Plugins\EditorTools\Source\EditorTools\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Plugins\EditorTools\Source\EditorTools\Private\QuickMaterialCreationWidget.cpp">
+      <Filter>Plugins\EditorTools\Source\EditorTools\Private</Filter>
+    </ClCompile>
     <Filter Include="Plugins\EditorTools\Source\EditorTools\Public">
       <UniqueIdentifier>{954F580B-3394-3A35-B73E-F6E6F08C5451}</UniqueIdentifier>
     </Filter>
@@ -64,6 +67,9 @@
       <Filter>Plugins\EditorTools\Source\EditorTools\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Plugins\EditorTools\Source\EditorTools\Public\DebugHeader.h">
+      <Filter>Plugins\EditorTools\Source\EditorTools\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\EditorTools\Source\EditorTools\Public\QuickMaterialCreationWidget.h">
       <Filter>Plugins\EditorTools\Source\EditorTools\Public</Filter>
     </ClInclude>
     <None Include="..\..\Plugins\EditorTools\EditorTools.uplugin">
