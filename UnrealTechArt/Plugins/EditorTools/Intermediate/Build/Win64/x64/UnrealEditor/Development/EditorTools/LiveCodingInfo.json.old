@@ -4,10 +4,8 @@
 		"Module.EditorTools.cpp.obj": [
 			"EditorTools.init.gen.cpp.obj",
 			"QuickAssetAction.gen.cpp.obj",
-			"QuickMaterialCreationWidget.gen.cpp.obj",
 			"EditorTools.cpp.obj",
-			"QuickAssetAction.cpp.obj",
-			"QuickMaterialCreationWidget.cpp.obj"
+			"QuickAssetAction.cpp.obj"
 		]
 	}
 }
