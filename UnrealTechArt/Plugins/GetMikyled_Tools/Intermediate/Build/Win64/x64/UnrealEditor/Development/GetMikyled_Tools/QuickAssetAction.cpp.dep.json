@@ -1,0 +1,23 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\getmikyled_tools\\source\\getmikyled_tools\\private\\assetactions\\quickassetaction.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\getmikyled_tools\\unrealtechart\\intermediate\\build\\win64\\x64\\unrealtecharteditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.inclorderoldest.h.pch",
+        "Includes": [
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\getmikyled_tools\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\getmikyled_tools\\definitions.getmikyled_tools.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\getmikyled_tools\\source\\getmikyled_tools\\public\\assetactions\\quickassetaction.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\classes\\assetactionutility.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\classes\\editorutilityobject.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\runtime\\engine\\public\\iassetregistrytagproviderinterface.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\iassetregistrytagproviderinterface.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\editorutilityobject.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\editor\\blutility\\public\\ieditorutilityextension.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\ieditorutilityextension.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\blutility\\uht\\assetactionutility.generated.h",
+            "d:\\github\\getmikyled_tools\\unrealtechart\\plugins\\getmikyled_tools\\intermediate\\build\\win64\\unrealeditor\\inc\\getmikyled_tools\\uht\\quickassetaction.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
